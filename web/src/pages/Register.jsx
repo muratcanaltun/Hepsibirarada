@@ -1,28 +1,30 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { Button, Form, FormGroup, Label, Input, Image } from "reactstrap";
+import axios from "axios";
 
 
 const Register = () => {
 
-    const [name, setName] = useState('')
-    const [price, setPrice] = useState('')
-    const [category, setCategory] = useState('')
-    const [description, setDescription] = useState('')
-    const [features, setFeatures] = useState('')
-    //const [image, setImage] = useState([])
+    const [userName, setUser] = useState("");
+    const [password, setPassword]= useState("");
+    const [email, setEmail]= useState("");
+    const onSubmit = async (e) => {
+        e.preventDefault()
+        const post = { username: userName, email: email, password: password }
+        try {
+            const res = await axios.post('http://localhost:8080/customers', post)
+            console.log(res.data)
 
-    const categories = [
-        'Electronics',
-        'Moda',
-        'Ev dekorasyonu',
-        'Spor',
-        'Hobi',
-        'Süpermarket'
-    ];
+        } catch (e) {
+            alert(e)
+        }
+        alert("Register Successfully Completed");
+    }
+
 
     return (
-        <Form className="form">
+        <Form className="form" onSubmit={onSubmit}>
             <FormGroup className="formGroup">
                 <Label for="product_name" className="label">
                     Username
@@ -31,7 +33,9 @@ const Register = () => {
                     className="input"
                     type="text"
                     name="product_name"
-                    onChange={(e) => setName({ name: e.target.value })}
+                    onChange={(event) => {
+                        setUser(event.target.value)
+                    }}
                     required
                     size="20"
                     minlength="2"
@@ -47,7 +51,9 @@ const Register = () => {
                     className="input"
                     type="email"
                     name="price"
-                    onChange={(e) => setPrice({ price: e.target.value })}
+                    onChange={(event) => {
+                        setEmail(event.target.value)
+                    }}
                     required
                     size="20"
                     minlength="2"
@@ -63,7 +69,9 @@ const Register = () => {
                     className="input"
                     type="password"
                     name="features"
-                    onChange={(e) => setFeatures({ features: e.target.value })}
+                    onChange={(event) => {
+                        setPassword(event.target.value)
+                    }}
                     required
                     size="20"
                     minlength="2"
