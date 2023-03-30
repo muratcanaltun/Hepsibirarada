@@ -20,6 +20,7 @@ public class StoreController {
         this.storeRepository = storeRepository;
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/stores/{username}")
     Store getOne(@PathVariable String username) {
         Store store = storeRepository.findByUsername(username);
@@ -27,11 +28,13 @@ public class StoreController {
         return store;
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/stores")
     List<Store> getAll() {
         return storeRepository.findAll();
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/stores")
     Store newStore(@RequestBody String body) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -45,6 +48,7 @@ public class StoreController {
         return store;
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @PutMapping("/stores/{username}")
     Store updateStore(@PathVariable String username, @RequestBody String body) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -60,11 +64,13 @@ public class StoreController {
         return new Store(parsedJSON.get("username"), parsedJSON.get("email"), parsedJSON.get("password"));
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @DeleteMapping("/stores/{username}")
     Store deleteStore(@PathVariable String username) {
         return storeRepository.deleteByUsername(username);
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/stores/{username}")
     Store addProductToStore(@PathVariable String username, @RequestBody String body) {
         Store store = storeRepository.findByUsername(username);

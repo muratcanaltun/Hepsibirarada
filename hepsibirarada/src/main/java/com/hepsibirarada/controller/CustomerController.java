@@ -6,6 +6,7 @@ import com.hepsibirarada.model.Customer;
 import com.hepsibirarada.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.List;
 import java.util.Map;
@@ -20,16 +21,19 @@ public class CustomerController {
         this.customerRepository = customerRepository;
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/customers/{username}")
     Customer getOne(@PathVariable String username) {
         return customerRepository.findByUsername(username);
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/customers")
     List<Customer> getAll() {
         return customerRepository.findAll();
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/customers")
     Customer newCustomer(@RequestBody String body) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -43,6 +47,7 @@ public class CustomerController {
         return customer;
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @PutMapping("/customers/{username}")
     Customer updateCustomer(@PathVariable String username, @RequestBody String body) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -58,6 +63,7 @@ public class CustomerController {
         return new Customer(parsedJSON.get("username"), parsedJSON.get("email"), parsedJSON.get("password"));
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @DeleteMapping("/customers/{username}")
     Customer deleteCustomer(@PathVariable String username) {
         return customerRepository.deleteByUsername(username);

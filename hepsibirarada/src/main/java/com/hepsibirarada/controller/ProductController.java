@@ -19,16 +19,19 @@ public class ProductController {
         this.productRepository = productRepository;
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/products/{id}")
     Product getOne(@PathVariable String id) {
         return productRepository.findByID(id);
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/products")
     List<Product> getAll() {
         return productRepository.findAll();
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/products")
     Product newProduct(@RequestBody String body) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -43,6 +46,7 @@ public class ProductController {
         return product;
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @PutMapping("/products/{id}")
     Product updateProduct(@PathVariable String id, @RequestBody String body) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -60,6 +64,7 @@ public class ProductController {
                 parsedJSON.get("description"), parsedJSON.get("features"));
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @DeleteMapping("/products/{id}")
     Product deleteProduct(@PathVariable String id) {
         return productRepository.deleteByID(id);
