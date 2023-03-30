@@ -10,7 +10,7 @@ class Navbar extends Component {
   render() {
     return (
       <nav className="NavbarItems">
-        <img src={logo} className="navbar-logo" alt="" />
+        <a><img src={logo} className="navbar-logo" alt="" /></a>
         <ul className= "nav-menu">
           {MenuItems.map((item, index) => {
             return (
