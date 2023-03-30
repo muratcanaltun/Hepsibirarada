@@ -1,32 +1,32 @@
 export const MenuItems = [
     {
-        title: 'Elektronik',
-        url: '/elektronik',
+        title: 'Add Products',
+        url: '/addProduct',
         cName: 'nav-links',
     },
     {
-        title: 'Moda',
-        url: '/moda',
+        title: 'Product 1',
+        url: '/product/1',
         cName: 'nav-links',
     },
     {
-        title: 'Ev dekorasyonu',
-        url: '/evDekorasyonu',
+        title: 'Product 2',
+        url: '/product/2',
         cName: 'nav-links',
     },
     {
-        title: 'Spor',
-        url: '/spor',
+        title: 'Register',
+        url: '/register',
         cName: 'nav-links',
     },
     {
-        title: 'Hobi',
-        url: '/hobi',
+        title: 'Login',
+        url: '/login',
         cName: 'nav-links',
     },
     {
-        title: 'Süpermarket',
-        url: '/süpermarket',
+        title: 'Delete Account',
+        url: '/deleteAccount',
         cName: 'nav-links',
     }
 

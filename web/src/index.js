@@ -7,16 +7,28 @@ import {BrowserRouter, Route, Routes} from "react-router-dom";
 import ProductPage from "./pages/ProductPage";
 import {store} from "./app/store";
 import {Provider} from "react-redux";
+import AddProductPage from "./pages/AddProductPage";
+import Home from "./pages/Home";
+import Navbar from "./components/Navbar/Navbar";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import DeleteAccount from "./pages/DeleteAccount";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <Provider store={store}>
+        <Navbar/>
+
     <BrowserRouter>
         <Routes>
-            <Route path="/" element={<App />} />
+            <Route path="/" element={<Home />} />
             <Route path="product">
                 <Route path=":id" element={<ProductPage />} />
             </Route>
+            <Route path="addProduct" element={<AddProductPage />} />
+            <Route path="login" element={<Login />} />
+            <Route path="register" element={<Register />} />
+            <Route path="deleteAccount" element={<DeleteAccount/>} />
         </Routes>
     </BrowserRouter>
     </Provider>
