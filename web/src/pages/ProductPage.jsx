@@ -29,7 +29,7 @@ function ProductPage() {
             setComments(response.data.comments);
             console.log(comments);
         });
-    }, [id, comments]);
+    }, [id]);
 
     const addToCart = () => {
         dispatch(addItem(product));
