@@ -4,6 +4,16 @@ const initialState = {
     myCart: []
 }
 
+
+export function myIndexOf(myCart, item) {
+    for (let i = 0; i < myCart.length; i++) {
+        if (myCart[i].id === item.id) {
+            return i;
+        }
+    }
+    return -1;
+}
+
 export function getTotal(myCart) {
     let total = 0;
     for (let i = 0; i < myCart.length; i++) {

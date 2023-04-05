@@ -45,7 +45,7 @@ function Navbar (){
       }
     return (
       <nav className="NavbarItems">
-        <a><img src={logo} className="navbar-logo" alt="" /></a>
+        <a onClick={()=> {navigate('')}}><img src={logo} className="navbar-logo" alt="" /></a>
         <ul className= "nav-menu">
           {MenuItems.map((item, index) => {
             return (

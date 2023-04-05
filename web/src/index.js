@@ -13,12 +13,16 @@ import Navbar from "./components/Navbar/Navbar";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import DeleteAccount from "./pages/DeleteAccount";
+import CartFab from "./components/CartFab";
+import PersistentDrawerRight from "./components/PersistentDrawerRight";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <Provider store={store}>
     <BrowserRouter>
         <Navbar/>
+        <CartFab/>
+        <PersistentDrawerRight/>
         <Routes>
             <Route path="/" element={<Home />} />
             <Route path="product">

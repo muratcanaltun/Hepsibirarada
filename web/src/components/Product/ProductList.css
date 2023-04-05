@@ -1,0 +1,29 @@
+.Main {
+    display: flex;
+    justify-content: center;
+}
+
+.Main .foundLabelMD {
+    text-shadow: 3px 3px 3px whitesmoke;
+    font-weight: bolder;
+    font-style: italic;
+    font-size: xxx-large;
+    color: #242020;
+    position: sticky;
+    left: 0;
+    right: 0;
+    top: 3vh;
+    z-index: 3;
+}
+.Main .foundLabelSM {
+    text-shadow: 3px 3px 3px whitesmoke;
+    font-weight: bolder;
+    font-style: italic;
+    font-size: xx-large;
+    color: #242020;
+    position: sticky;
+    left: 0;
+    right: 0;
+    top: 92vh;
+    z-index: 3;
+}
