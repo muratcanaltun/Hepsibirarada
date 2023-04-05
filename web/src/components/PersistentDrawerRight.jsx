@@ -99,7 +99,7 @@ export default function PersistentDrawerRight() {
                 </Grid>
 
             </Drawer>
-            <Main open={open}>
+            <Main sx={{display: 'none'}} open={open}>
                 <DrawerHeader/>
             </Main>
         </Box>
