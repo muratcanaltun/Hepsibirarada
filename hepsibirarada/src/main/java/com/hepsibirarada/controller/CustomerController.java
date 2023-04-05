@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hepsibirarada.model.Customer;
 import com.hepsibirarada.repository.CustomerRepository;
+import com.hepsibirarada.util.AccountAuthenticationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -16,6 +17,7 @@ public class CustomerController {
 
     @Autowired
     CustomerRepository customerRepository;
+    AccountAuthenticationUtil accountAuthenticationUtil = new AccountAuthenticationUtil();
 
     CustomerController(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
@@ -39,7 +41,8 @@ public class CustomerController {
         ObjectMapper objectMapper = new ObjectMapper();
         Map<String, String> parsedJSON = objectMapper.readValue(body, Map.class);
 
-        Customer customer = new Customer(parsedJSON.get("username"), parsedJSON.get("email"), parsedJSON.get("password"));
+        Customer customer = new Customer(parsedJSON.get("username"), parsedJSON.get("email"),
+                accountAuthenticationUtil.encryptPassword(parsedJSON.get("password")));
 
         if (customerRepository.findByUsername(customer.getUsername()) == null) {
             return customerRepository.save(customer);
@@ -53,14 +56,14 @@ public class CustomerController {
         ObjectMapper objectMapper = new ObjectMapper();
         Map<String, String> parsedJSON = objectMapper.readValue(body, Map.class);
 
-        Customer customer;
+        Customer customer = new Customer(parsedJSON.get("username"), parsedJSON.get("email"),
+                accountAuthenticationUtil.encryptPassword(parsedJSON.get("password")));
 
         if (customerRepository.findByUsername(username) != null) {
-            customer = new Customer(parsedJSON.get("username"), parsedJSON.get("email"), parsedJSON.get("password"));
             customer.setId(customerRepository.findByUsername(username).getId());
             return customerRepository.save(customer);
         }
-        return new Customer(parsedJSON.get("username"), parsedJSON.get("email"), parsedJSON.get("password"));
+        return customer;
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
