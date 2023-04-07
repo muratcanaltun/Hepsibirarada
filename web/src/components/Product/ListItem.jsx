@@ -4,18 +4,51 @@ import {useDispatch, useSelector} from "react-redux";
 import {addItem, myIndexOf} from "../../features/cartSlice";
 import {useNavigate} from "react-router-dom";
 import "./ListItem.css";
+import {useCookies} from "react-cookie";
 
 function ListItem() {
     let navigate = useNavigate();
     const products = useSelector((state) => state.products.productsArray);
     const myCart = useSelector((state) => state.cart.myCart);
     const dispatch = useDispatch();
+    const [cookies, setCookie, removeCookie] = useCookies(['cart']);
+
+
+    //function for setting cookies
+    const setCookies = () => {
+        let idString = "";
+        let countString = "";
+        //first remove old cookies
+        removeCookie("ids");
+        removeCookie("counts");
+        //put ids and counts of products into strings
+        for (let i = 0; i < myCart.length; i++) {
+            idString = idString + " " + myCart[i].id.toString();
+            countString = countString + " " + myCart[i].count.toString();
+        }
+        setCookie('ids', idString, { path: '/' });
+        setCookie('counts', countString, { path: '/' });
+        console.log("cookies set, ids:"+idString);
+        console.log("cookies set, counts:"+countString);
+    }
+
+
+    //set cookies whenever the cart changes
+    React.useEffect(() => {
+        if (myCart.length > 0) {
+            setCookies();
+        }
+    }, [myCart]);
+
+
 
     // add an item to cart
     const addToCart = (index) => {
         dispatch(addItem(products[index]));
+
     }
 
+    //navigate the user when they click an item
     const navigator = (productId) => {
         navigate(`/product/${productId}`, {replace: true})
     }

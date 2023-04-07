@@ -5,12 +5,21 @@ import {emptyItems, getTotal} from "../features/cartSlice";
 import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
 import {useNavigate} from "react-router-dom";
+import {useCookies} from "react-cookie";
 
 //this component displays items in cart
 function CartMain() {
     let navigate = useNavigate();
     const myCart = useSelector((state) => state.cart.myCart);
     const dispatch = useDispatch();
+    const [cookies, setCookie, removeCookie] = useCookies(['cart']);
+
+    const deleteCookies = () => {
+        //delete cookies previously created
+        removeCookie("ids");
+        removeCookie("counts");
+
+    }
     const titleCreator = (price) => {
         return "$" + price;
     }
@@ -21,6 +30,9 @@ function CartMain() {
     }
     //when you click cancel it empties the cart state array
     const cancelHandler = () => {
+        //empty twice just to make sure don't question xd
+        deleteCookies();
+        deleteCookies();
         dispatch(emptyItems());
     }
 

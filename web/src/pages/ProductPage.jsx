@@ -3,8 +3,6 @@ import {Button, Grid, Paper} from "@mui/material";
 import {Link, useParams} from "react-router-dom";
 import axios from "axios";
 import "./ProductPage.css";
-import CartFab from "../components/CartFab";
-import PersistentDrawerRight from "../components/PersistentDrawerRight";
 import {addItem} from "../features/cartSlice";
 import {useDispatch} from "react-redux";
 
@@ -14,6 +12,7 @@ function ProductPage() {
     const [comments, setComments] = useState([]);
     let {id} = useParams();
 
+    //get a dummy product and comments according to id
     React.useEffect(() => {
         let myInd = 0;
         if (id === undefined) {
@@ -22,6 +21,7 @@ function ProductPage() {
             myInd = parseInt(id);
         }
         axios.get(`https://fakestoreapi.com/products/${myInd}`).then((response) => {
+            response.data.count = 1;
             setProduct(response.data);
         });
         axios.get(`https://dummyjson.com/comments/post/${myInd}`).then((response) => {
@@ -36,8 +36,6 @@ function ProductPage() {
     }
 
     return (<Grid container display="flex" justifyContent="center" className="productPageMain">
-            <CartFab/>
-            <PersistentDrawerRight/>
             <Link className="foreground" to="/">Return Home</Link>
             <Grid item container xs={12} justifyContent="center" display="flex" spacing={"2px"}
                   className="productPageContainer">
