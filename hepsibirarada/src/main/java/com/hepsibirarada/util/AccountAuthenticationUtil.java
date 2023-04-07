@@ -1,12 +1,12 @@
 package com.hepsibirarada.util;
 
-import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 public class AccountAuthenticationUtil {
     public String encryptPassword(String plaintext) {
         try {
-            java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");
+            MessageDigest md = MessageDigest.getInstance("MD5");
             byte[] array = md.digest(plaintext.getBytes());
             StringBuffer stringBuffer = new StringBuffer();
 
@@ -16,7 +16,7 @@ public class AccountAuthenticationUtil {
 
             return stringBuffer.toString();
 
-        } catch (java.security.NoSuchAlgorithmException e) {
+        } catch (NoSuchAlgorithmException e) {
         }
         return null;
     }

@@ -3,7 +3,10 @@ package com.hepsibirarada.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hepsibirarada.model.Product;
+import com.hepsibirarada.model.ProductRating;
+import com.hepsibirarada.model.Store;
 import com.hepsibirarada.repository.ProductRepository;
+import com.hepsibirarada.repository.StoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +17,8 @@ import java.util.Map;
 public class ProductController {
     @Autowired
     ProductRepository productRepository;
+    @Autowired
+    StoreRepository storeRepository;
 
     ProductController(ProductRepository productRepository) {
         this.productRepository = productRepository;
@@ -37,12 +42,17 @@ public class ProductController {
         ObjectMapper objectMapper = new ObjectMapper();
         Map<String, String> parsedJSON = objectMapper.readValue(body, Map.class);
 
-        Product product = new Product(parsedJSON.get("name"), Double.parseDouble(parsedJSON.get("price")),
-                parsedJSON.get("description"), parsedJSON.get("features"));
+        Product product = new Product(parsedJSON.get("title"), Double.parseDouble(parsedJSON.get("price")),
+                parsedJSON.get("description"),
+                parsedJSON.get("category"), Integer.parseInt(parsedJSON.get("availableStocks")));
 
         if (productRepository.findByID(product.getId()) == null) {
-            return productRepository.save(product);
+            product = productRepository.save(product);
+            Store store = storeRepository.findByUsername(parsedJSON.get("store"));
+            store.addProduct(product.getId());
+            storeRepository.save(store);
         }
+
         return product;
     }
 
@@ -52,21 +62,36 @@ public class ProductController {
         ObjectMapper objectMapper = new ObjectMapper();
         Map<String, String> parsedJSON = objectMapper.readValue(body, Map.class);
 
-        Product product;
+        Product product = new Product(parsedJSON.get("title"), Double.parseDouble(parsedJSON.get("price")),
+                parsedJSON.get("description"),
+                parsedJSON.get("category"), Integer.parseInt(parsedJSON.get("availableStocks")));;
 
         if (productRepository.findByID(id) != null) {
-            product = new Product(parsedJSON.get("name"), Double.parseDouble(parsedJSON.get("price")),
-                    parsedJSON.get("description"), parsedJSON.get("features"));
             product.setId(productRepository.findByID(id).getId());
             return productRepository.save(product);
         }
-        return new Product(parsedJSON.get("name"), Double.parseDouble(parsedJSON.get("price")),
-                parsedJSON.get("description"), parsedJSON.get("features"));
+        return product;
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
     @DeleteMapping("/products/{id}")
     Product deleteProduct(@PathVariable String id) {
         return productRepository.deleteByID(id);
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PostMapping("/products/{id}")
+    Product addRatingToProduct(@PathVariable String id, @RequestBody String body) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        Map<String, String> parsedJSON = objectMapper.readValue(body, Map.class);
+
+        Product product = productRepository.findByID(id);
+
+        if (product != null) {
+            product.addProductRating(new ProductRating(parsedJSON.get("commenterUsername"),
+                    Double.parseDouble(parsedJSON.get("rating")), parsedJSON.get("comment")));
+            return productRepository.save(product);
+        }
+        return product;
     }
 }
