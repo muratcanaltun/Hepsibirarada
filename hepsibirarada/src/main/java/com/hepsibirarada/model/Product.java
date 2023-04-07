@@ -3,23 +3,31 @@ package com.hepsibirarada.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Document("products")
 public class Product {
     @Id
     private String id;
-    private String name;
+    private String title;
     private double price;
     private String description;
-    private String features;
+    private String category;
     private boolean stopSales;
 
-    public Product(String name, double price, String description, String features) {
+    private int availableStocks;
+    private List<ProductRating> productRatings;
+
+    public Product(String title, double price, String description, String category, int availableStocks) {
         super();
-        this.name = name;
+        this.title = title;
         this.price = price;
         this.description = description;
-        this.features = features;
+        this.category = category;
+        this.availableStocks = availableStocks;
         stopSales = false;
+        productRatings = new ArrayList<>();
     }
 
     public String getId() {
@@ -30,12 +38,12 @@ public class Product {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public double getPrice() {
@@ -54,12 +62,20 @@ public class Product {
         this.description = description;
     }
 
-    public String getFeatures() {
-        return features;
+    public String getCategory() {
+        return category;
     }
 
-    public void setFeatures(String features) {
-        this.features = features;
+    public int getAvailableStocks() {
+        return availableStocks;
+    }
+
+    public void setAvailableStocks(int availableStocks) {
+        this.availableStocks = availableStocks;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public boolean isStopSales() {
@@ -68,5 +84,21 @@ public class Product {
 
     public void setStopSales(boolean stopSales) {
         this.stopSales = stopSales;
+    }
+
+    public void addProductRating(ProductRating productRating) {
+        this.productRatings.add(productRating);
+    }
+
+    public void removeProductRating(ProductRating productRating) {
+        this.productRatings.remove(productRating);
+    }
+
+    public List<ProductRating> getProductRatings() {
+        return productRatings;
+    }
+
+    public void setProductRatings(List<ProductRating> productRatings) {
+        this.productRatings = productRatings;
     }
 }
