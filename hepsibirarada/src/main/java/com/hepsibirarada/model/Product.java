@@ -17,15 +17,18 @@ public class Product {
     private boolean stopSales;
 
     private int availableStocks;
+    private String imageLink;
     private List<ProductRating> productRatings;
 
-    public Product(String title, double price, String description, String category, int availableStocks) {
+    public Product(String title, double price, String description,
+                   String category, int availableStocks, String imageLink) {
         super();
         this.title = title;
         this.price = price;
         this.description = description;
         this.category = category;
         this.availableStocks = availableStocks;
+        this.imageLink = imageLink;
         stopSales = false;
         productRatings = new ArrayList<>();
     }

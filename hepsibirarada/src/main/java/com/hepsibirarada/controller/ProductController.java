@@ -44,7 +44,8 @@ public class ProductController {
 
         Product product = new Product(parsedJSON.get("title"), Double.parseDouble(parsedJSON.get("price")),
                 parsedJSON.get("description"),
-                parsedJSON.get("category"), Integer.parseInt(parsedJSON.get("availableStocks")));
+                parsedJSON.get("category"), Integer.parseInt(parsedJSON.get("availableStocks")),
+                parsedJSON.get("imageLink"));
 
         if (productRepository.findByID(product.getId()) == null) {
             product = productRepository.save(product);
@@ -64,7 +65,8 @@ public class ProductController {
 
         Product product = new Product(parsedJSON.get("title"), Double.parseDouble(parsedJSON.get("price")),
                 parsedJSON.get("description"),
-                parsedJSON.get("category"), Integer.parseInt(parsedJSON.get("availableStocks")));;
+                parsedJSON.get("category"), Integer.parseInt(parsedJSON.get("availableStocks")),
+                parsedJSON.get("imageLink"));
 
         if (productRepository.findByID(id) != null) {
             product.setId(productRepository.findByID(id).getId());
