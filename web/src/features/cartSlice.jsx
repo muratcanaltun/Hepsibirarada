@@ -4,7 +4,20 @@ const initialState = {
     myCart: []
 }
 
+//function for getting a product from its id
+export function getProductFromID(ProductsArray, id) {
+    if (ProductsArray.length > 2) {
+        for (let i = 0; i < ProductsArray.length; i++) {
+            if (ProductsArray[i].id === id) {
+                console.log("item searched and found");
+                return ProductsArray[i];
+            }
+        }
+    }
+    return;
+}
 
+//since normal index functions can't differentiate between objects I had to create one
 export function myIndexOf(myCart, item) {
     for (let i = 0; i < myCart.length; i++) {
         if (myCart[i].id === item.id) {
@@ -14,6 +27,7 @@ export function myIndexOf(myCart, item) {
     return -1;
 }
 
+//get total expense
 export function getTotal(myCart) {
     let total = 0;
     for (let i = 0; i < myCart.length; i++) {

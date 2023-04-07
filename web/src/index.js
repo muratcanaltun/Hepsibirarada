@@ -15,9 +15,12 @@ import Register from "./pages/Register";
 import DeleteAccount from "./pages/DeleteAccount";
 import CartFab from "./components/CartFab";
 import PersistentDrawerRight from "./components/PersistentDrawerRight";
+import {CookiesProvider} from "react-cookie";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
+
+    <CookiesProvider>
     <Provider store={store}>
     <BrowserRouter>
         <Navbar/>
@@ -35,6 +38,7 @@ root.render(
         </Routes>
     </BrowserRouter>
     </Provider>
+    </CookiesProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function
