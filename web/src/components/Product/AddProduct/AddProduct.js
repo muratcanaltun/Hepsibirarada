@@ -1,4 +1,4 @@
-import React, {useCallback} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {Button, Form, FormGroup, Input, Label} from "reactstrap";
 import "./AddProduct.css";
 import {Controller, useForm} from "react-hook-form";
@@ -98,6 +98,25 @@ const AddProduct = () => {
                     multiple={false}
                     size="lg"
                 >{categories.map(category => <option key={category}>{category}</option>)}</Input>} name={'category'}/>
+            </FormGroup>
+            <FormGroup className="formGroup">
+                {" "}
+                <Label for="availableStocks" className="label">
+                    Available stocks
+                </Label>
+                <Controller control={control} rules={{
+                    required: true,
+                    pattern: /^[0-9]+$/
+                }} render={({field: {onChange}, fieldState: {error}}) => <Input
+                    className="input"
+                    type="number"
+                    name="availableStocks"
+                    onChange={(e) => onChange(e.target.value)}
+                    required
+                    placeholder={'Put the number'}
+                    invalid={error !== undefined}
+                    size="20"
+                />} name={'availableStocks'}/>
             </FormGroup>
             <FormGroup className="formGroup">
                 {" "}
