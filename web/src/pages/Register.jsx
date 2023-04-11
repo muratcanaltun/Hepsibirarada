@@ -9,6 +9,10 @@ const Register = () => {
     const [userName, setUser] = useState("");
     const [password, setPassword]= useState("");
     const [email, setEmail]= useState("");
+    const [selectedRadioBtn, setSelectedRadioBtn]= useState("customer");
+
+    const isRadioSelected = (value) => selectedRadioBtn === value;
+
     const onSubmit = async (e) => {
         e.preventDefault()
         const post = { username: userName, email: email, password: password }
@@ -33,8 +37,8 @@ const Register = () => {
                     className="input"
                     type="text"
                     name="product_name"
-                    onChange={(event) => {
-                        setUser(event.target.value)
+                    onChange={(e) => {
+                        setUser(e.target.value)
                     }}
                     required
                     size="20"
@@ -51,8 +55,8 @@ const Register = () => {
                     className="input"
                     type="email"
                     name="price"
-                    onChange={(event) => {
-                        setEmail(event.target.value)
+                    onChange={(e) => {
+                        setEmail(e.target.value)
                     }}
                     required
                     size="20"
@@ -69,8 +73,8 @@ const Register = () => {
                     className="input"
                     type="password"
                     name="features"
-                    onChange={(event) => {
-                        setPassword(event.target.value)
+                    onChange={(e) => {
+                        setPassword(e.target.value)
                     }}
                     required
                     size="20"
@@ -87,7 +91,7 @@ const Register = () => {
                     <input
                         type="radio"
                         value="store"
-
+                        name="userType"
                     />
                     Store Owner
                 </label>
@@ -95,7 +99,7 @@ const Register = () => {
                     <input
                         type="radio"
                         value="customer"
-
+                        name="userType"
                     />
                     Customer
                 </label>
