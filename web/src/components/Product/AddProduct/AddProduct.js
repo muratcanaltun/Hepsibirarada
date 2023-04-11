@@ -1,11 +1,10 @@
-import React, {useCallback, useState} from "react";
+import React, {useCallback} from "react";
 import {Button, Form, FormGroup, Input, Label} from "reactstrap";
 import "./AddProduct.css";
-import {useForm, Controller} from "react-hook-form";
+import {Controller, useForm} from "react-hook-form";
+import request from '../../../api/request'
 
 const AddProduct = () => {
-   const {control, handleSubmit} = useForm()
-
     const categories = [
         'Electronics',
         'Moda',
@@ -15,8 +14,15 @@ const AddProduct = () => {
         'Süpermarket'
     ];
 
+    const {control, handleSubmit} = useForm({
+        mode: 'onSubmit',
+        defaultValues: {
+            category: categories[0]
+        }
+    })
+
     const onSubmit = useCallback(state => {
-        console.log(state)
+        request.product(state)
     }, [])
 
     return (
@@ -37,7 +43,7 @@ const AddProduct = () => {
                     size="20"
                     minlength="2"
                     maxlength="10"
-                />} name={'product_name'}/>
+                />} name={'title'}/>
             </FormGroup>
             <FormGroup className="formGroup">
                 {" "}
@@ -73,8 +79,6 @@ const AddProduct = () => {
                     required
                     invalid={error !== undefined}
                     size="20"
-                    minlength="2"
-                    maxlength="10"
                 />} name={'description'}/>
             </FormGroup>
             <FormGroup className="formGroup">
@@ -93,9 +97,29 @@ const AddProduct = () => {
                     invalid={error !== undefined}
                     multiple={false}
                     size="lg"
-                    minlength="2"
-                    maxlength="10"
                 >{categories.map(category => <option key={category}>{category}</option>)}</Input>} name={'category'}/>
+            </FormGroup>
+            <FormGroup className="formGroup">
+                {" "}
+                <Label for="imageLink" className="label">
+                    Product image link
+                </Label>
+                <Controller control={control} rules={{
+                    required: true,
+                    pattern: {
+                        value: /(https?:\/\/)?([\w-]{1,32}\.[\w-]{1,32})[^\s@]*$/,
+                        message: 'Put the link'
+                    }
+                }} render={({field: {onChange}, fieldState: {error}}) => <Input
+                    className="input"
+                    type="text"
+                    name="imageLink"
+                    onChange={(e) => onChange(e.target.value)}
+                    required
+                    invalid={error !== undefined}
+                    size="20"
+                    placeholder={'Put the link'}
+                />} name={'imageLink'}/>
             </FormGroup>
             <Button type="submit" className="button">
                 Add Product
