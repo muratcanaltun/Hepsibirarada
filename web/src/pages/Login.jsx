@@ -5,8 +5,8 @@ import axios from "axios";
 
 
 const Login = () => {
-    const [userName, setUser] = useState("");
-    const [password, setPassword]= useState("");
+    const [userName, setUser] = useState('');
+    const [password, setPassword]= useState('');
 
 
     const onSubmit = async (e) => {

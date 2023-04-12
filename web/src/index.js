@@ -11,7 +11,7 @@ import AddProductPage from "./pages/AddProductPage";
 import Home from "./pages/Home";
 import Navbar from "./components/Navbar/Navbar";
 import Login from "./pages/Login";
-import Register from "./pages/Register";
+import Register from "./pages/RegisterPage/Register";
 import DeleteAccount from "./pages/DeleteAccount";
 import CartFab from "./components/CartFab";
 import PersistentDrawerRight from "./components/PersistentDrawerRight";

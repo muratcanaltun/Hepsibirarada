@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useCallback} from "react";
 import {Button, Form, FormGroup, Input, Label} from "reactstrap";
 import "./AddProduct.css";
 import {Controller, useForm} from "react-hook-form";
