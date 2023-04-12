@@ -80,7 +80,7 @@ function ListItem() {
                     <Paper className="paper">
                         <img alt="product" onClick={() => {
                             navigator(product.id)
-                        }} src={product.image}/>
+                        }} src={product.imageLink}/>
                         <Grid container display="flex" justifyContent="center" className="infoHolder">
                             <Grid item justifyContent="center" xs={12} className="item1">
                                 <h4 style={{display: 'flex', justifyContent: 'center'}}>{product.title}</h4>

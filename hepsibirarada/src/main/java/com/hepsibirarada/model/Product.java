@@ -15,7 +15,6 @@ public class Product {
     private String description;
     private String category;
     private boolean stopSales;
-
     private int availableStocks;
     private String imageLink;
     private List<ProductRating> productRatings;
@@ -87,6 +86,14 @@ public class Product {
 
     public void setStopSales(boolean stopSales) {
         this.stopSales = stopSales;
+    }
+
+    public String getImageLink() {
+        return imageLink;
+    }
+
+    public void setImageLink(String imageLink) {
+        this.imageLink = imageLink;
     }
 
     public void addProductRating(ProductRating productRating) {

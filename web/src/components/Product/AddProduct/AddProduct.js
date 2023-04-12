@@ -5,6 +5,8 @@ import {Controller, useForm} from "react-hook-form";
 import request from '../../../api/request'
 
 const AddProduct = () => {
+    const [stores, setStores] = useState([])
+
     const categories = [
         'Electronics',
         'Moda',
@@ -14,7 +16,7 @@ const AddProduct = () => {
         'Süpermarket'
     ];
 
-    const {control, handleSubmit} = useForm({
+    const {control, handleSubmit, resetField} = useForm({
         mode: 'onSubmit',
         defaultValues: {
             category: categories[0]
@@ -22,7 +24,19 @@ const AddProduct = () => {
     })
 
     const onSubmit = useCallback(state => {
-        request.product(state)
+        request.product.addProduct(state).catch(e => console.log(e))
+    }, [])
+
+    useEffect(() => {
+        const setStoresFromServer = async () => {
+            const currentStores = await request.store().then(({data}) => data)
+            setStores(currentStores)
+            resetField('store', {
+                defaultValue: currentStores[0].username
+            })
+        }
+
+        setStoresFromServer().catch(e => console.log(e))
     }, [])
 
     return (
@@ -51,10 +65,11 @@ const AddProduct = () => {
                     Price
                 </Label>
                 <Controller control={control} rules={{
-                    required: true
+                    required: true,
+                    pattern: /^[0-9]+$/
                 }} render={({field: {onChange}, fieldState: {error}}) => <Input
                     className="input"
-                    type="text"
+                    type="number"
                     name="price"
                     onChange={(e) => onChange(e.target.value)}
                     required
@@ -73,12 +88,12 @@ const AddProduct = () => {
                     required: true
                 }} render={({field: {onChange}, fieldState: {error}}) => <Input
                     className="input description"
-                    type="text"
+                    type="textarea"
                     name="description"
                     onChange={(e) => onChange(e.target.value)}
                     required
                     invalid={error !== undefined}
-                    size="20"
+                    bsSize={'lg'}
                 />} name={'description'}/>
             </FormGroup>
             <FormGroup className="formGroup">
@@ -98,6 +113,22 @@ const AddProduct = () => {
                     multiple={false}
                     size="lg"
                 >{categories.map(category => <option key={category}>{category}</option>)}</Input>} name={'category'}/>
+            </FormGroup>
+            <FormGroup className="formGroup">
+                {" "}
+                <Label for="store" className="label">Store</Label>
+                <Controller control={control} rules={{
+                    required: true
+                }} render={({field: {onChange}, fieldState: {error}}) => <Input
+                    className="input"
+                    type="select"
+                    name="store"
+                    onChange={(e) => onChange(e.target.value.username)}
+                    required
+                    invalid={error !== undefined}
+                    multiple={false}
+                    size="lg"
+                >{stores.map(store => <option key={store.id}>{store.username}</option>)}</Input>} name={'store'}/>
             </FormGroup>
             <FormGroup className="formGroup">
                 {" "}
