@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Button, Grid, Paper} from "@mui/material";
+import {Button, Grid, Paper, Rating} from "@mui/material";
 import {Link, useParams} from "react-router-dom";
 import "./ProductPage.css";
 import {addItem} from "../features/cartSlice";
@@ -29,8 +29,16 @@ function ProductPage() {
             <Link className="foreground" to="/">Return Home</Link>
             <Grid item container xs={12} justifyContent="center" display="flex" spacing={"2px"}
                   className="productPageContainer">
-                <Grid item container xs={12} justifyContent="center" display="flex" padding="3px" marginTop="3vh">
-                    <label>{product.title}</label>
+                <Grid item container xs={12} justifyContent="start" flexDirection={'column'} alignItems={'center'} display="flex" padding="3px" marginTop="3vh">
+                    <label><b>{product.title}</b></label>
+                    {
+                        product.productRatings.length > 0 && <Rating
+                            name="simple-controlled"
+                            value={product.productRatings.reduce((acc, commentInfo) => acc + commentInfo.rating, 0) / product.productRatings.length}
+                            readOnly
+                            precision={0.1}
+                        />
+                    }
                 </Grid>
                 <Grid item container xs={12} justifyContent="center" display="flex" marginTop="1vh">
                     <img src={product.imageLink} alt={"aa"}/>
@@ -60,7 +68,15 @@ function ProductPage() {
                         <Paper style={{padding: "40px 20px", marginTop: 5}}>
                             <Grid container wrap="nowrap" spacing={2}>
                                 <Grid justifyContent="left" item xs zeroMinWidth>
-                                    <h4 style={{margin: 0, textAlign: "left"}}>{commentInfo.commenterUsername}</h4>
+                                    <div className={'commentHeaderWrapper'}>
+                                        <h4 style={{margin: 0, textAlign: "left"}}>{commentInfo.commenterUsername}</h4>
+                                        <Rating
+                                            name="simple-controlled"
+                                            precision={0.1}
+                                            readOnly
+                                            value={commentInfo.rating}
+                                        />
+                                    </div>
                                     <p style={{textAlign: "left"}}>
                                         {commentInfo.comment}
                                     </p>

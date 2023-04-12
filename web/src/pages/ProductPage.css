@@ -45,3 +45,9 @@
     z-index: 3;
 }
 
+.commentHeaderWrapper {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
