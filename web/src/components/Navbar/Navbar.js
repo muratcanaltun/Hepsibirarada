@@ -10,16 +10,6 @@ const MenuItems = [
         cName: 'nav-links',
     },
     {
-        title: 'Product 1',
-        url: '/product/1',
-        cName: 'nav-links',
-    },
-    {
-        title: 'Product 2',
-        url: '/product/2',
-        cName: 'nav-links',
-    },
-    {
         title: 'Register',
         url: '/register',
         cName: 'nav-links',
