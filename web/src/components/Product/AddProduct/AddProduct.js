@@ -88,12 +88,12 @@ const AddProduct = () => {
                     required: true
                 }} render={({field: {onChange}, fieldState: {error}}) => <Input
                     className="input description"
-                    type="text"
+                    type="textarea"
                     name="description"
                     onChange={(e) => onChange(e.target.value)}
                     required
                     invalid={error !== undefined}
-                    size="20"
+                    bsSize={'lg'}
                 />} name={'description'}/>
             </FormGroup>
             <FormGroup className="formGroup">
