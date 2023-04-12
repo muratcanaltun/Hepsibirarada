@@ -1,7 +1,7 @@
-.productPageContainer {
-    max-height: 100vh;
+/*.productPageContainer {*/
+/*    max-height: 100vh;*/
 
-}
+/*}*/
 .productPageMain Link {
     text-align: center;
     justify-content: center;
@@ -19,11 +19,10 @@
 
 .productPageMain {
     margin: 0;
-    padding: 0;
     position: relative;
     width: 100%;
-    height: 100vh;
-    overflow: scroll;
+
+    padding-bottom: 20px;
 }
 
 .productPageMain img {
