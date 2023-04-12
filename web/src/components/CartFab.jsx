@@ -7,6 +7,7 @@ import {useCookies} from "react-cookie";
 import {addItem, getProductFromID} from "../features/cartSlice";
 import axios from "axios";
 import {setDefaultProducts, setProducts} from "../features/productsSlice";
+import request from "../api/request";
 
 let firstRender = true;
 const baseURL = "https://fakestoreapi.com/products";
@@ -56,7 +57,7 @@ function CartFab() {
     //for getting the products asynchronously
     async function getAllData() {
         try {
-            let products = await axios.get(`${baseURL}`)
+            let products = await request.product.getProducts().then(({data}) => data).catch(e => console.error(e))
             await delay();
             return products;
         } catch (error) {
@@ -78,8 +79,8 @@ function CartFab() {
     //this function makes everything happen
     (async function () {
         let products = await getAllData();
-        countSetter(products?.data);
-        getCookies(products?.data);
+        countSetter(products);
+        getCookies(products);
     })();
 
     //function for getting cookies

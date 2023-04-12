@@ -24,7 +24,7 @@ const AddProduct = () => {
     })
 
     const onSubmit = useCallback(state => {
-        request.product(state).catch(e => console.log(e))
+        request.product.addProduct(state).catch(e => console.log(e))
     }, [])
 
     useEffect(() => {
