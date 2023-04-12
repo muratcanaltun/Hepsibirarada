@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hepsibirarada.model.Store;
 import com.hepsibirarada.repository.StoreRepository;
 import com.hepsibirarada.util.AccountAuthenticationUtil;
+import com.hepsibirarada.util.RequestProcessingUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +18,7 @@ public class StoreController {
     @Autowired
     StoreRepository storeRepository;
     AccountAuthenticationUtil accountAuthenticationUtil = new AccountAuthenticationUtil();
+    RequestProcessingUtil requestProcessingUtil = new RequestProcessingUtil();
 
     StoreController(StoreRepository storeRepository) {
         this.storeRepository = storeRepository;
@@ -39,8 +41,7 @@ public class StoreController {
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/stores")
     Store newStore(@RequestBody String body) throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        Map<String, String> parsedJSON = objectMapper.readValue(body, Map.class);
+        Map<String, String> parsedJSON = requestProcessingUtil.parseJSON(body);
 
         Store store = new Store(parsedJSON.get("username"), parsedJSON.get("email"),
                 accountAuthenticationUtil.encryptPassword(parsedJSON.get("password")));
@@ -54,8 +55,7 @@ public class StoreController {
     @CrossOrigin(origins = "http://localhost:3000")
     @PutMapping("/stores/{username}")
     Store updateStore(@PathVariable String username, @RequestBody String body) throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        Map<String, String> parsedJSON = objectMapper.readValue(body, Map.class);
+        Map<String, String> parsedJSON = requestProcessingUtil.parseJSON(body);
 
         Store store = new Store(parsedJSON.get("username"), parsedJSON.get("email"),
                 accountAuthenticationUtil.encryptPassword(parsedJSON.get("password")));

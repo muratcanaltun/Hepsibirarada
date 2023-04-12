@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hepsibirarada.model.Customer;
 import com.hepsibirarada.repository.CustomerRepository;
 import com.hepsibirarada.util.AccountAuthenticationUtil;
+import com.hepsibirarada.util.RequestProcessingUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -18,6 +19,7 @@ public class CustomerController {
     @Autowired
     CustomerRepository customerRepository;
     AccountAuthenticationUtil accountAuthenticationUtil = new AccountAuthenticationUtil();
+    RequestProcessingUtil requestProcessingUtil = new RequestProcessingUtil();
 
     CustomerController(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
@@ -38,8 +40,7 @@ public class CustomerController {
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/customers")
     Customer newCustomer(@RequestBody String body) throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        Map<String, String> parsedJSON = objectMapper.readValue(body, Map.class);
+        Map<String, String> parsedJSON = requestProcessingUtil.parseJSON(body);
 
         Customer customer = new Customer(parsedJSON.get("username"), parsedJSON.get("email"),
                 accountAuthenticationUtil.encryptPassword(parsedJSON.get("password")));
@@ -53,8 +54,7 @@ public class CustomerController {
     @CrossOrigin(origins = "http://localhost:3000")
     @PutMapping("/customers/{username}")
     Customer updateCustomer(@PathVariable String username, @RequestBody String body) throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        Map<String, String> parsedJSON = objectMapper.readValue(body, Map.class);
+        Map<String, String> parsedJSON = requestProcessingUtil.parseJSON(body);
 
         Customer customer = new Customer(parsedJSON.get("username"), parsedJSON.get("email"),
                 accountAuthenticationUtil.encryptPassword(parsedJSON.get("password")));

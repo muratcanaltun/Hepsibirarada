@@ -7,6 +7,7 @@ import com.hepsibirarada.model.ProductRating;
 import com.hepsibirarada.model.Store;
 import com.hepsibirarada.repository.ProductRepository;
 import com.hepsibirarada.repository.StoreRepository;
+import com.hepsibirarada.util.RequestProcessingUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +20,7 @@ public class ProductController {
     ProductRepository productRepository;
     @Autowired
     StoreRepository storeRepository;
+    RequestProcessingUtil requestProcessingUtil = new RequestProcessingUtil();
 
     ProductController(ProductRepository productRepository) {
         this.productRepository = productRepository;
@@ -39,17 +41,16 @@ public class ProductController {
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/products")
     Product newProduct(@RequestBody String body) throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        Map<String, String> parsedJSON = objectMapper.readValue(body, Map.class);
+        Map<String, String> parsedJSON = requestProcessingUtil.parseJSON(body);
 
         Product product = new Product(parsedJSON.get("title"), Double.parseDouble(parsedJSON.get("price")),
                 parsedJSON.get("description"),
                 parsedJSON.get("category"), Integer.parseInt(parsedJSON.get("availableStocks")),
                 parsedJSON.get("imageLink"));
+        Store store = storeRepository.findByUsername(parsedJSON.get("store"));
 
-        if (productRepository.findByID(product.getId()) == null) {
+        if (productRepository.findByID(product.getId()) == null && store != null) {
             product = productRepository.save(product);
-            Store store = storeRepository.findByUsername(parsedJSON.get("store"));
             store.addProduct(product.getId());
             storeRepository.save(store);
         }
@@ -60,8 +61,7 @@ public class ProductController {
     @CrossOrigin(origins = "http://localhost:3000")
     @PutMapping("/products/{id}")
     Product updateProduct(@PathVariable String id, @RequestBody String body) throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        Map<String, String> parsedJSON = objectMapper.readValue(body, Map.class);
+        Map<String, String> parsedJSON = requestProcessingUtil.parseJSON(body);
 
         Product product = new Product(parsedJSON.get("title"), Double.parseDouble(parsedJSON.get("price")),
                 parsedJSON.get("description"),
@@ -84,8 +84,7 @@ public class ProductController {
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/products/{id}")
     Product addRatingToProduct(@PathVariable String id, @RequestBody String body) throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        Map<String, String> parsedJSON = objectMapper.readValue(body, Map.class);
+        Map<String, String> parsedJSON = requestProcessingUtil.parseJSON(body);
 
         Product product = productRepository.findByID(id);
 
