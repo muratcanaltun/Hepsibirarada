@@ -3,7 +3,7 @@ import {Button, Grid, Paper} from "@mui/material";
 import {Link, useParams} from "react-router-dom";
 import axios from "axios";
 import "./ProductPage.css";
-import {addItem} from "../features/cartSlice";
+import {addItem} from "../../features/cartSlice";
 import {useDispatch} from "react-redux";
 
 function ProductPage() {

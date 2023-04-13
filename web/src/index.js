@@ -4,22 +4,23 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {BrowserRouter, Route, Routes} from "react-router-dom";
-import ProductPage from "./pages/ProductPage";
+import ProductPage from "./pages/ProductPage/ProductPage";
 import {store} from "./app/store";
 import {Provider} from "react-redux";
 import AddProductPage from "./pages/AddProductPage";
 import Home from "./pages/Home";
 import Navbar from "./components/Navbar/Navbar";
-import Login from "./pages/Login";
-import Register from "./pages/RegisterPage/Register";
-import DeleteAccount from "./pages/DeleteAccount";
+import Login from "./pages/AuthenticationPages/Login";
+import Register from "./pages/AuthenticationPages/Register";
+import DeleteAccount from "./pages/AuthenticationPages/DeleteAccount";
 import CartFab from "./components/CartFab";
 import PersistentDrawerRight from "./components/PersistentDrawerRight";
 import {CookiesProvider} from "react-cookie";
+import {AuthProvider} from "./context/AuthProvider"
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-
+    <AuthProvider>
     <CookiesProvider>
     <Provider store={store}>
     <BrowserRouter>
@@ -39,6 +40,7 @@ root.render(
     </BrowserRouter>
     </Provider>
     </CookiesProvider>
+    </AuthProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function
