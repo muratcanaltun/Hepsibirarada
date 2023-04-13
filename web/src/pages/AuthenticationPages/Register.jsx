@@ -71,7 +71,7 @@ const Register = () => {
         }
         try {
             const response = await mainInstance.post(
-                "http://localhost:8080/customer/",
+                "/customers",
                 JSON.stringify({ username: user, email, password }),
                 {
                     headers: { "Content-Type": "application/json" },

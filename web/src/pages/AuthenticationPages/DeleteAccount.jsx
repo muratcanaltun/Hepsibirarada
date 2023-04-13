@@ -21,7 +21,7 @@ const DeleteAccount = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await mainInstance.delete("http://localhost:8080/customers/",
+            const response = await mainInstance.delete("/customers",
                 JSON.stringify({ username: user, password }),
                 {
                     headers: { 'Content-Type': 'application/json' },

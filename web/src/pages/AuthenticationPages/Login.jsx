@@ -19,7 +19,7 @@ const Login = () => {
        const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await mainInstance.post("http://localhost:8080/customers/",
+            const response = await mainInstance.post("/customers",
                 JSON.stringify({ username: user, password }),
                 {
                     headers: { 'Content-Type': 'application/json' },
