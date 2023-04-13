@@ -1,0 +1,52 @@
+/*.productPageContainer {*/
+/*    max-height: 100vh;*/
+
+/*}*/
+.productPageMain Link {
+    text-align: center;
+    justify-content: center;
+    color: whitesmoke;
+    backdrop-filter: blur(10px);
+    padding: 2vh;
+    position: sticky;
+    right: 0;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 3vh;
+
+}
+
+.productPageMain {
+    margin: 0;
+    position: relative;
+    width: 100%;
+
+    padding-bottom: 20px;
+}
+
+.productPageMain img {
+    width: 40vh;
+    height: 45vh;
+}
+
+.productPageMain label {
+    text-align: center;
+    padding-inline: 5vw;
+    font-family: Tahoma, Algerian,monospace;
+    margin: 2vh;
+    justify-items: center;
+    backdrop-filter: blur(10px);
+}
+
+
+.foreground {
+    z-index: 3;
+}
+
+.commentHeaderWrapper {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
