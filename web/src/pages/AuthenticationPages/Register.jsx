@@ -6,6 +6,7 @@ import FormLabel from "@mui/material/FormLabel";
 import RadioGroup from "@mui/material/RadioGroup";
 import Radio from "@mui/material/Radio";
 import mainInstance from "../../api/instances/mainInstance";
+import axios from "axios";
 
 const USER_REGEX = /^[a-zA-Z0][a-zA-Z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,24}$/;
@@ -69,25 +70,11 @@ const Register = () => {
             setErrorMsg("Invalid Entry");
             return;
         }
-        try {
-            const response = await mainInstance.post(
-                "/customers",
-                JSON.stringify({ username: user, email, password })
-            );
-            console.log(response.data);
-            console.log(response.accessToken);
-            console.log(JSON.stringify(response));
-            setSuccess(true);
-        } catch (err) {
-            if (!err?.response) {
-                setErrorMsg("No Server Response");
-            } else if (err.response?.status === 409) {
-                setErrorMsg("Username Taken");
-            } else {
-                setErrorMsg("Registration failed");
-            }
-            errorRef.current.focus();
-        }
+        axios.post(
+            "http://localhost:8080/customers",
+            { username: user, email, password })
+            .then(response => console.log(response))
+            .catch(err => console.log(err))
     };
 
     return (

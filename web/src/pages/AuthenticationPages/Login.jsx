@@ -3,6 +3,7 @@ import "./Authentication.css";
 import AuthContext from "../../context/AuthProvider";
 
 import mainInstance from "../../api/instances/mainInstance";
+import axios from "axios";
 
 
 const Login = () => {
@@ -19,10 +20,9 @@ const Login = () => {
        const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await mainInstance.post("/customers",
-                JSON.stringify({ username: user, password })
-            );
-            console.log(JSON.stringify(response?.data));
+            const response = await axios.post("http://localhost:8080/customers",
+                { username: user, password }
+            )
             const accessToken = response?.data?.accessToken;
             const roles = response?.data?.roles;
             setAuth({ user, password, roles, accessToken });
