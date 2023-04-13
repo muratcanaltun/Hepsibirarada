@@ -72,14 +72,20 @@ const Register = () => {
             axios.post(
                 "http://localhost:8080/customers",
                 { username: user, email, password })
-                .then(response => console.log(response))
+                .then(setUser(''),
+                setEmail(''),
+                 setPassword(''),
+                 setMatchPassword(''),
+                 setSuccess(true))
                 .catch(err => console.log(err))
         }
         else{
         axios.post(
             "http://localhost:8080/stores",
             { username: user, email, password })
-            .then(response => console.log(response))
+            .then(setUser(''),
+            setPassword(''),
+            setSuccess(true))
             .catch(err => console.log(err))
         }
     };
@@ -234,9 +240,9 @@ const Register = () => {
                                     label="Customer"
                                 />
                                 <FormControlLabel
-                                    value="store-owner"
+                                    value="store"
                                     control={<Radio />}
-                                    label="Store owner"
+                                    label="Store"
                                 />
                             </RadioGroup>
                         </FormControl>

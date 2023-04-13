@@ -1,8 +1,15 @@
-import React, { useState, useRef, useContext, useEffect } from "react";
+import React, { useState, useRef, useContext, useEffect, useCallback } from "react";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormControl from "@mui/material/FormControl";
+import FormLabel from "@mui/material/FormLabel";
+import RadioGroup from "@mui/material/RadioGroup";
+import Radio from "@mui/material/Radio";
 import "./Authentication.css";
 import AuthContext from "../../context/AuthProvider";
+import md5 from 'md5-hash'
 
 import mainInstance from "../../api/instances/mainInstance";
+import request from '../../api/request'
 import axios from "axios";
 
 
@@ -14,32 +21,21 @@ const Login = () => {
     const [user, setUser] = useState("");
     const [password, setPassword] = useState("");
 
+    const [userType, setUserType] = useState("customer");
+
     const [errorMsg, setErrorMsg] = useState("");
     const [success, setSuccess] = useState("");
 
-       const handleSubmit = async (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        try {
-            const response = await axios.get("http://localhost:8080/customers",
-                { username: user, password }
-            )
-            const accessToken = response?.data?.accessToken;
-            const roles = response?.data?.roles;
-            setAuth({ user, password, roles, accessToken });
+        var APIlink = 'http://localhost:8080/' + userType + 's/'+ user;
+        const response = await axios.get(APIlink)
+        if (response.data.password === md5(password)) {
             setUser('');
             setPassword('');
             setSuccess(true);
-        } catch (err) {
-            if (!err?.response) {
-                setErrorMsg('No Server Response');
-            } else if (err.response?.status === 400) {
-                setErrorMsg('Missing user or Password');
-            } else if (err.response?.status === 401) {
-                setErrorMsg('Unauthorized');
-            } else {
-                setErrorMsg('Login Failed');
-            }
-            errorRef.current.focus();
+        }
+        else {
         }
     }
 
@@ -82,7 +78,30 @@ const Login = () => {
                             }}
                             required
                         ></input>
-                        <button type="submit">Login</button>
+                         <FormControl>
+                            <FormLabel id="radio-buttons-group-label">User Type:</FormLabel>
+                            <RadioGroup
+                                aria-labelledby="radio-buttons-group-label"
+                                defaultValue="customer"
+                                name="radio-buttons-group"
+                                row
+                                onChange={(e) => {
+                                    setUserType(e.target.value);
+                                }}
+                            >
+                                <FormControlLabel
+                                    value="customer"
+                                    control={<Radio />}
+                                    label="Customer"
+                                />
+                                <FormControlLabel
+                                    value="store"
+                                    control={<Radio />}
+                                    label="Store"
+                                />
+                            </RadioGroup>
+                        </FormControl>
+                        <button>Login</button>
                     </form>
                     <p className="need-an-account">
                         Need an Account?<br />

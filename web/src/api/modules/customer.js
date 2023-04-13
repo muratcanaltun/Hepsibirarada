@@ -1,3 +1,7 @@
 export default function (instance) {
-    return (data) => instance.post("customers", data);
+    return {
+        addCustomer: (data) => instance.post("customers", data),
+        getCustomers: () => instance.get("customers"),
+        getCustomer: (id) => instance.get(`customers/${id}`)
+    }
 }
