@@ -1,3 +1,6 @@
 export default function (instance) {
-    return () => instance.get("stores");
+    return {
+        addStore: (data) => instance.post("stores", data),
+    getStores: () => instance.get("stores"),
+    getStor: (id) => instance.get(`stores/${id}`)}
 }
