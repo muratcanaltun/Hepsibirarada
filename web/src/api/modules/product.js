@@ -1,7 +1,3 @@
-export default function(instance) {
-    return {
-        addProduct: (data) => instance.post("products", data),
-        getProducts: () => instance.get("products"),
-        getProduct: (id) => instance.get(`products/${id}`)
-    }
+export default function (instance) {
+    return (data) => instance.post("products", data);
 }

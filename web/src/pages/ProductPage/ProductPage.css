@@ -1,7 +1,7 @@
-/*.productPageContainer {*/
-/*    max-height: 100vh;*/
+.productPageContainer {
+    max-height: 100vh;
 
-/*}*/
+}
 .productPageMain Link {
     text-align: center;
     justify-content: center;
@@ -19,10 +19,11 @@
 
 .productPageMain {
     margin: 0;
+    padding: 0;
     position: relative;
     width: 100%;
-
-    padding-bottom: 20px;
+    height: 100vh;
+    overflow: scroll;
 }
 
 .productPageMain img {
@@ -42,11 +43,5 @@
 
 .foreground {
     z-index: 3;
-}
-
-.commentHeaderWrapper {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
 }
 

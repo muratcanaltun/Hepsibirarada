@@ -1,24 +1,34 @@
-import React, {useState, useEffect} from 'react';
-import {Button, Grid, Paper, Rating} from "@mui/material";
+import React, {useState} from 'react';
+import {Button, Grid, Paper} from "@mui/material";
 import {Link, useParams} from "react-router-dom";
+import axios from "axios";
 import "./ProductPage.css";
-import {addItem} from "../features/cartSlice";
+import {addItem} from "../../features/cartSlice";
 import {useDispatch} from "react-redux";
-import request from "../api/request";
 
 function ProductPage() {
     const dispatch = useDispatch();
-    const [product, setProduct] = useState({title: " ", description: " ", imageLink: "", price: "", category: "", productRatings: []});
+    const [product, setProduct] = useState({title: " ", description: " ", image: "", price: "", category: ""});
+    const [comments, setComments] = useState([]);
     let {id} = useParams();
 
     //get a dummy product and comments according to id
-    useEffect(() => {
-        const getProduct = async () => {
-            const product = await request.product.getProduct(id).then(({data}) => data)
-            setProduct(product)
+    React.useEffect(() => {
+        let myInd = 0;
+        if (id === undefined) {
+            myInd = 0
+        } else {
+            myInd = parseInt(id);
         }
-
-        getProduct().catch(e => console.log(e))
+        axios.get(`https://fakestoreapi.com/products/${myInd}`).then((response) => {
+            response.data.count = 1;
+            setProduct(response.data);
+        });
+        axios.get(`https://dummyjson.com/comments/post/${myInd}`).then((response) => {
+            console.log(response.data.comments);
+            setComments(response.data.comments);
+            console.log(comments);
+        });
     }, [id]);
 
     const addToCart = () => {
@@ -29,19 +39,11 @@ function ProductPage() {
             <Link className="foreground" to="/">Return Home</Link>
             <Grid item container xs={12} justifyContent="center" display="flex" spacing={"2px"}
                   className="productPageContainer">
-                <Grid item container xs={12} justifyContent="start" flexDirection={'column'} alignItems={'center'} display="flex" padding="3px" marginTop="3vh">
-                    <label><b>{product.title}</b></label>
-                    {
-                        product.productRatings.length > 0 && <Rating
-                            name="simple-controlled"
-                            value={product.productRatings.reduce((acc, commentInfo) => acc + commentInfo.rating, 0) / product.productRatings.length}
-                            readOnly
-                            precision={0.1}
-                        />
-                    }
+                <Grid item container xs={12} justifyContent="center" display="flex" padding="3px" marginTop="3vh">
+                    <label>{product.title}</label>
                 </Grid>
                 <Grid item container xs={12} justifyContent="center" display="flex" marginTop="1vh">
-                    <img src={product.imageLink} alt={"aa"}/>
+                    <img src={product.image} alt={"aa"}/>
                 </Grid>
                 <Grid item container xs={12} justifyContent="center" display="flex" marginTop="2vh">
                     <label className="foreground">{product.category}</label>
@@ -63,22 +65,14 @@ function ProductPage() {
             <Grid className="Main" container xs={12} md={10}>
                 <label>Comments</label>
 
-                {product.productRatings.map((commentInfo) => (
+                {comments.map((comment, index) => (
                     <Grid item xs={12}>
                         <Paper style={{padding: "40px 20px", marginTop: 5}}>
                             <Grid container wrap="nowrap" spacing={2}>
                                 <Grid justifyContent="left" item xs zeroMinWidth>
-                                    <div className={'commentHeaderWrapper'}>
-                                        <h4 style={{margin: 0, textAlign: "left"}}>{commentInfo.commenterUsername}</h4>
-                                        <Rating
-                                            name="simple-controlled"
-                                            precision={0.1}
-                                            readOnly
-                                            value={commentInfo.rating}
-                                        />
-                                    </div>
+                                    <h4 style={{margin: 0, textAlign: "left"}}>{comment.user.username}</h4>
                                     <p style={{textAlign: "left"}}>
-                                        {commentInfo.comment}
+                                        {comment.body}
                                     </p>
                                 </Grid>
                             </Grid>
