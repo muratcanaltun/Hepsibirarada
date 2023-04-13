@@ -72,11 +72,7 @@ const Register = () => {
         try {
             const response = await mainInstance.post(
                 "/customers",
-                JSON.stringify({ username: user, email, password }),
-                {
-                    headers: { "Content-Type": "application/json" },
-                    withCredentials: true,
-                }
+                JSON.stringify({ username: user, email, password })
             );
             console.log(response.data);
             console.log(response.accessToken);

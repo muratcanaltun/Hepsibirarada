@@ -22,11 +22,7 @@ const DeleteAccount = () => {
         e.preventDefault();
         try {
             const response = await mainInstance.delete("/customers",
-                JSON.stringify({ username: user, password }),
-                {
-                    headers: { 'Content-Type': 'application/json' },
-                    withCredentials: true
-                }
+                JSON.stringify({ username: user, password })
             );
             console.log(JSON.stringify(response?.data));
             const accessToken = response?.data?.accessToken;
