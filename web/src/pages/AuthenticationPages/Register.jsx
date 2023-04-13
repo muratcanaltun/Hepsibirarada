@@ -11,8 +11,6 @@ import axios from "axios";
 const USER_REGEX = /^[a-zA-Z0][a-zA-Z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,24}$/;
 
-const USER_TYPE = "customer"
-
 const Register = () => {
     const userRef = useRef();
     const errorRef = useRef();
@@ -70,11 +68,20 @@ const Register = () => {
             setErrorMsg("Invalid Entry");
             return;
         }
+        if(userType === "customer"){
+            axios.post(
+                "http://localhost:8080/customers",
+                { username: user, email, password })
+                .then(response => console.log(response))
+                .catch(err => console.log(err))
+        }
+        else{
         axios.post(
-            "http://localhost:8080/customers",
+            "http://localhost:8080/stores",
             { username: user, email, password })
             .then(response => console.log(response))
             .catch(err => console.log(err))
+        }
     };
 
     return (

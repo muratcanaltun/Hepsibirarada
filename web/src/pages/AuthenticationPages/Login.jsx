@@ -20,7 +20,7 @@ const Login = () => {
        const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post("http://localhost:8080/customers",
+            const response = await axios.get("http://localhost:8080/customers",
                 { username: user, password }
             )
             const accessToken = response?.data?.accessToken;
