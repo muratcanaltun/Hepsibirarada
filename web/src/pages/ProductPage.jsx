@@ -8,14 +8,16 @@ import request from "../api/request";
 
 function ProductPage() {
     const dispatch = useDispatch();
-    const [product, setProduct] = useState({title: " ", description: " ", imageLink: "", price: "", category: "", productRatings: []});
+    const [product, setProduct] = useState({title: " ", description: " ", imageLink: "", price: "", category: "", productRatings: [], count: 1});
     let {id} = useParams();
 
     //get a dummy product and comments according to id
     useEffect(() => {
         const getProduct = async () => {
-            const product = await request.product.getProduct(id).then(({data}) => data)
-            setProduct(product)
+            const product = await request.product.getProduct(id).then(({data}) => data);
+            //set product count or else there is no count here and it fails while adding to cart
+            product.count = 1;
+            setProduct(product);
         }
 
         getProduct().catch(e => console.log(e))
