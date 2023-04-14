@@ -19,7 +19,7 @@ const DeleteAccount = () => {
     const [password, setPassword] = useState("");
     const [userType, setUserType] = useState("customer");
 
-    const [isChecked, setIsChecked] = useState(false)
+    const [understood, setUnderstood] = useState(false)
 
     const [errorMsg, setErrorMsg] = useState("");
     const [success, setSuccess] = useState("");
@@ -30,20 +30,32 @@ const DeleteAccount = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        var APIlink = 'http://localhost:8080/' + userType + 's/'+ user;
-        const response = await axios.get(APIlink)
-        if (response.data.password === md5(password)) {
-            axios.delete(APIlink);
-            setUser('');
-            setPassword('');
-            setSuccess(true);
-        }
-        else {
+        if (understood) {
+            var APIlink = 'http://localhost:8080/' + userType + 's/' + user;
+            const response = await axios.get(APIlink)
+            if (response.data.password === md5(password)) {
+                axios.delete(APIlink);
+                setUser('');
+                setPassword('');
+                setSuccess(true);
+            }
+            else {
+            }
+        } else {
+
         }
     }
 
     return (
-        <div className="container">
+        <div className="container">{success ? (
+            <section>
+                <h1>Account Deleted!</h1>
+                <br />
+                <p>
+                    <a href='/'>Go to home</a>
+                </p>
+            </section>
+        ) : (
             <section>
                 <h1 className="header">Delete Account</h1>
                 <form className="form" onSubmit={handleSubmit}>
@@ -76,36 +88,39 @@ const DeleteAccount = () => {
                         required
                     ></input>
                     <FormControl>
-                            <FormLabel id="radio-buttons-group-label">User Type:</FormLabel>
-                            <RadioGroup
-                                aria-labelledby="radio-buttons-group-label"
-                                defaultValue="customer"
-                                name="radio-buttons-group"
-                                row
-                                onChange={(e) => {
-                                    setUserType(e.target.value);
-                                }}
-                            >
-                                <FormControlLabel
-                                    value="customer"
-                                    control={<Radio />}
-                                    label="Customer"
-                                />
-                                <FormControlLabel
-                                    value="store"
-                                    control={<Radio />}
-                                    label="Store"
-                                />
-                            </RadioGroup>
-                        </FormControl>
+                        <FormLabel id="radio-buttons-group-label">User Type:</FormLabel>
+                        <RadioGroup
+                            aria-labelledby="radio-buttons-group-label"
+                            defaultValue="customer"
+                            name="radio-buttons-group"
+                            row
+                            onChange={(e) => {
+                                setUserType(e.target.value);
+                            }}
+                        >
+                            <FormControlLabel
+                                value="customer"
+                                control={<Radio />}
+                                label="Customer"
+                            />
+                            <FormControlLabel
+                                value="store"
+                                control={<Radio />}
+                                label="Store"
+                            />
+                        </RadioGroup>
+                    </FormControl>
                     <label>
-                        <input type="checkbox" value="undertood"/>I Understand this can't be undone.
+                        <input type="checkbox" value="undertood" onChange={(e) => {
+                            setUnderstood(e.target.checked);
+                        }} />I Understand this can't be undone.
                     </label>
                     <button type="submit">
                         Delete
                     </button>
                 </form>
             </section>
+            )}
         </div>
     );
 };
