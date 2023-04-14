@@ -93,7 +93,7 @@ function CartFab() {
             let product;
             //get product from its id and add it to cart
             for (let i = 1; i < IDs.length; i++) {
-                product = getProductFromID(products, parseInt(IDs[i]));
+                product = getProductFromID(products, IDs[i]);
                 for (let a = 0; a < parseInt(counts[i]); a++) {
                     dispatch(addItem(product));
                 }
