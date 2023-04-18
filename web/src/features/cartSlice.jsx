@@ -1,4 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit'
+import {Product} from "./productsSlice";
 
 const initialState = {
     myCart: []
@@ -31,7 +32,7 @@ export function myIndexOf(myCart, item) {
 export function getTotal(myCart) {
     let total = 0;
     for (let i = 0; i < myCart.length; i++) {
-        total = total +  myCart[i].price;
+        total = total +  myCart[i].price * myCart[i].count;
     }
     return total.toFixed(2);
 }
@@ -40,16 +41,39 @@ export const cartSlice = createSlice(
     {
         name: 'cart', initialState, reducers: {
             addItem: (state, item) => {
-                state.myCart.push(item.payload);
+                if(myIndexOf(state.myCart, item.payload) === -1) {
+                    state.myCart.push(item.payload);
+                } else {
+                    //since count is read-only we need to create a new object
+                    let productInd = myIndexOf(state.myCart, item.payload);
+                    let tempObj = item.payload;
+                    let count = state.myCart[productInd].count;
+                    state.myCart[productInd] = new Product(tempObj.id, tempObj.title, tempObj.price, tempObj.description, tempObj.category, tempObj.imageLink, count + 1, tempObj.productRatings);
+                }
             },
             deleteItem: (state, index) => {
                 state.myCart.splice(index.payload, 1);
             }, emptyItems: (state) => {
                 state.myCart = [];
+            },increaseCount: (state,item) => {
+                let productInd = myIndexOf(state.myCart, item.payload);
+                let tempObj = item.payload;
+                let count = state.myCart[productInd].count;
+                state.myCart[productInd] = new Product(tempObj.id, tempObj.title, tempObj.price, tempObj.description, tempObj.category, tempObj.imageLink, count + 1, tempObj.productRatings);
+            },decreaseCount: (state,item) => {
+                let productInd = myIndexOf(state.myCart, item.payload);
+                if(state.myCart[productInd].count === 1) {
+                    state.myCart.splice(productInd, 1);
+                } else {
+                    let productInd = myIndexOf(state.myCart, item.payload);
+                    let tempObj = item.payload;
+                    let count = state.myCart[productInd].count;
+                    state.myCart[productInd] = new Product(tempObj.id, tempObj.title, tempObj.price, tempObj.description, tempObj.category, tempObj.imageLink, count - 1, tempObj.productRatings);
+                }
             },
         },
     })
 
-export const {addItem, deleteItem, emptyItems} = cartSlice.actions;
+export const {addItem, deleteItem, emptyItems, increaseCount, decreaseCount} = cartSlice.actions;
 
 export default cartSlice.reducer;
