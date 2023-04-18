@@ -1,11 +1,13 @@
 import React from 'react'
-import {Button, Grid, ListItem, ListItemText} from "@mui/material";
+import {Button, Fab, Grid, ListItem, ListItemText} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
-import {emptyItems, getTotal} from "../features/cartSlice";
+import {decreaseCount, emptyItems, getTotal, increaseCount} from "../features/cartSlice";
 import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
 import {useNavigate} from "react-router-dom";
 import {useCookies} from "react-cookie";
+import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
+import RemoveOutlinedIcon from '@mui/icons-material/RemoveOutlined';
 
 //this component displays items in cart
 function CartMain() {
@@ -20,8 +22,8 @@ function CartMain() {
         removeCookie("counts");
 
     }
-    const titleCreator = (price) => {
-        return "$" + price;
+    const titleCreator = (price, count) => {
+        return "$" + price + " piece: "+ count;
     }
 
     //when you click checkout it opens checkout screen
@@ -34,6 +36,15 @@ function CartMain() {
         deleteCookies();
         deleteCookies();
         dispatch(emptyItems());
+    }
+
+    //increase selected item count
+    const increaseHandler = (product) => {
+        dispatch(increaseCount(product));
+    }
+    //decrease selected item count
+    const decreaseHandler = (product) => {
+        dispatch(decreaseCount(product));
     }
 
     return (
@@ -50,24 +61,49 @@ function CartMain() {
                                     <Grid item xs={12}>
                                         <ListItemText
                                             primary={product.title}
-                                            secondary={titleCreator(product.price)}
+                                            secondary={titleCreator(product.price, product.count)}
                                         />
+                                    </Grid>
+                                    <Grid item spacing={3} xs={12} sx={{marginBottom: "5px"}}>
+                                        <Fab onClick={() => {
+                                            increaseHandler(product)
+                                        }} size="small" style={{
+                                            position: 'absolute',
+                                            height: 20,
+                                            left: 45,
+                                            width: 20,
+                                            minHeight: 20,
+                                            backgroundColor: "blue"
+                                        }}>
+                                            <AddOutlinedIcon fontSize="small"/>
+                                        </Fab>
+                                        <Fab onClick={() => {
+                                            decreaseHandler(product)
+                                        }} size="small" style={{
+                                            position: 'absolute',
+                                            height: 20,
+                                            width: 20,
+                                            minHeight: 20,
+                                            backgroundColor: "blue"
+                                        }}>
+                                            <RemoveOutlinedIcon fontSize="small"/>
+                                        </Fab>
                                     </Grid>
                                 </Grid>
                             </ListItem>
                         </List>
                     ))}
                 </Grid>
-                <h4 style={{marginLeft: 15}}>Total: ${getTotal(myCart)}</h4>
-                <Divider variant="middle" sx={{marginTop: 3, marginBottom: 3}}/>
+                <h4 style={{marginLeft: 15, marginTop: 20}}>Total: ${getTotal(myCart)}</h4>
+                <Divider variant="middle" sx={{marginTop: 1, marginBottom: 2}}/>
             </Grid>
             <Grid item xs={6}>
                 <Button onClick={checkoutHandler} variant="contained"
-                        sx={{backgroundColor: "orangered", marginLeft: 2}}>Checkout</Button>
+                        sx={{backgroundColor: "blue", marginLeft: 2}}>Checkout</Button>
             </Grid>
             <Grid item xs={6}>
                 <Button onClick={cancelHandler} variant="contained"
-                        sx={{backgroundColor: "red", marginLeft: 2}}>Cancel</Button>
+                        sx={{backgroundColor: "lightBlue", marginLeft: 2}}>Cancel</Button>
             </Grid>
         </Grid>)
 }
