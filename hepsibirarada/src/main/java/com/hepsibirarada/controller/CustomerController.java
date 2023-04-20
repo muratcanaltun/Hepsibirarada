@@ -44,6 +44,7 @@ public class CustomerController {
 
         Customer customer = new Customer(parsedJSON.get("username"), parsedJSON.get("email"),
                 accountAuthenticationUtil.encryptPassword(parsedJSON.get("password")));
+        customer.addAddress(parsedJSON.get("address"));
 
         if (customerRepository.findByUsername(customer.getUsername()) == null) {
             return customerRepository.save(customer);
@@ -70,5 +71,18 @@ public class CustomerController {
     @DeleteMapping("/customers/{username}")
     Customer deleteCustomer(@PathVariable String username) {
         return customerRepository.deleteByUsername(username);
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PostMapping("/customers/{username}")
+    Customer addAddress(@PathVariable String username, @RequestBody String body) {
+        Customer customer = customerRepository.findByUsername(username);
+
+        if (customer != null) {
+            customer.addAddress(body);
+            return customerRepository.save(customer);
+        }
+
+        return customer;
     }
 }
