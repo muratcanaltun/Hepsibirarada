@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
+
 @SpringBootApplication
 @ComponentScan({"com.hepsibirarada.repository", "com.hepsibirarada.controller"})
 @EnableMongoRepositories(basePackages="com.hepsibirarada.repository")

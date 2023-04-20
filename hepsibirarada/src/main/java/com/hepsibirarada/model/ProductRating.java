@@ -2,10 +2,10 @@ package com.hepsibirarada.model;
 
 public class ProductRating {
     private String commenterUsername;
-    private double rating;
+    private int rating;
     private String comment;
 
-    public ProductRating(String commenterUsername, double rating, String comment) {
+    public ProductRating(String commenterUsername, int rating, String comment) {
         this.commenterUsername = commenterUsername;
         this.rating = rating;
         this.comment = comment;
@@ -23,7 +23,7 @@ public class ProductRating {
         return rating;
     }
 
-    public void setRating(double rating) {
+    public void setRating(int rating) {
         this.rating = rating;
     }
 
