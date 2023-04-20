@@ -1,8 +1,9 @@
 package com.hepsibirarada.model;
 
+import org.bson.BsonBinarySubType;
+import org.bson.types.Binary;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,18 +17,18 @@ public class Product {
     private String category;
     private boolean stopSales;
     private int availableStocks;
-    private String imageLink;
+    private String image;
     private List<ProductRating> productRatings;
 
     public Product(String title, double price, String description,
-                   String category, int availableStocks, String imageLink) {
+                   String category, int availableStocks, String image) {
         super();
         this.title = title;
         this.price = price;
         this.description = description;
         this.category = category;
         this.availableStocks = availableStocks;
-        this.imageLink = imageLink;
+        this.image = image;
         stopSales = false;
         productRatings = new ArrayList<>();
     }
@@ -88,12 +89,12 @@ public class Product {
         this.stopSales = stopSales;
     }
 
-    public String getImageLink() {
-        return imageLink;
+    public String getImage() {
+        return image;
     }
 
-    public void setImageLink(String imageLink) {
-        this.imageLink = imageLink;
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public void addProductRating(ProductRating productRating) {
