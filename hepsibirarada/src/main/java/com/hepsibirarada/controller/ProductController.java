@@ -1,7 +1,6 @@
 package com.hepsibirarada.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hepsibirarada.model.Product;
 import com.hepsibirarada.model.ProductRating;
 import com.hepsibirarada.model.Store;
@@ -11,6 +10,7 @@ import com.hepsibirarada.util.RequestProcessingUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -40,13 +40,13 @@ public class ProductController {
 
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/products")
-    Product newProduct(@RequestBody String body) throws JsonProcessingException {
+    Product newProduct(@RequestBody String body) throws IOException {
         Map<String, String> parsedJSON = requestProcessingUtil.parseJSON(body);
 
         Product product = new Product(parsedJSON.get("title"), Double.parseDouble(parsedJSON.get("price")),
                 parsedJSON.get("description"),
                 parsedJSON.get("category"), Integer.parseInt(parsedJSON.get("availableStocks")),
-                parsedJSON.get("imageLink"));
+                parsedJSON.get("image"));
         Store store = storeRepository.findByUsername(parsedJSON.get("store"));
 
         if (productRepository.findByID(product.getId()) == null && store != null) {
@@ -62,16 +62,14 @@ public class ProductController {
     @PutMapping("/products/{id}")
     Product updateProduct(@PathVariable String id, @RequestBody String body) throws JsonProcessingException {
         Map<String, String> parsedJSON = requestProcessingUtil.parseJSON(body);
+        parsedJSON.put("id", id);
 
-        Product product = new Product(parsedJSON.get("title"), Double.parseDouble(parsedJSON.get("price")),
-                parsedJSON.get("description"),
-                parsedJSON.get("category"), Integer.parseInt(parsedJSON.get("availableStocks")),
-                parsedJSON.get("imageLink"));
+        Product product = requestProcessingUtil.initializeProductWithOptions(parsedJSON, productRepository);
 
-        if (productRepository.findByID(id) != null) {
-            product.setId(productRepository.findByID(id).getId());
+        if (product != null) {
             return productRepository.save(product);
         }
+
         return product;
     }
 
@@ -90,7 +88,7 @@ public class ProductController {
 
         if (product != null) {
             product.addProductRating(new ProductRating(parsedJSON.get("commenterUsername"),
-                    Double.parseDouble(parsedJSON.get("rating")), parsedJSON.get("comment")));
+                    Integer.parseInt(parsedJSON.get("rating")), parsedJSON.get("comment")));
             return productRepository.save(product);
         }
         return product;
