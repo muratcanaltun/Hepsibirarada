@@ -72,16 +72,4 @@ public class StoreController {
     Store deleteStore(@PathVariable String username) {
         return storeRepository.deleteByUsername(username);
     }
-
-    @CrossOrigin(origins = "http://localhost:3000")
-    @PostMapping("/stores/{username}")
-    Store addProductToStore(@PathVariable String username, @RequestBody String body) {
-        Store store = storeRepository.findByUsername(username);
-
-        if (store != null) {
-            store.addProduct(body);
-            return storeRepository.save(store);
-        }
-        return store;
-    }
 }
