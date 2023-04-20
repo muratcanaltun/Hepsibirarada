@@ -1,0 +1,529 @@
+{
+	"info": {
+		"_postman_id": "8b7dc69e-4137-4eb7-9466-1c7d6b37babd",
+		"name": "Hepsibirarada",
+		"description": "The following are all the supported API endpoints in Hepsibirarada's backend:",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23759101"
+	},
+	"item": [
+		{
+			"name": "Customer",
+			"item": [
+				{
+					"name": "Get Customer by Username",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/customers/{username}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"customers",
+								"{username}"
+							]
+						},
+						"description": "This request gets the customer with the {username}. There is no body for this request."
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Customers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/customers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"customers"
+							]
+						},
+						"description": "This request gets ALL customer data. There is no body for this request."
+					},
+					"response": []
+				},
+				{
+					"name": "Add Customer",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"username\": \"samplecustomer\", \"email\": \"customer@sample.com\", \"password\": \"samplepassword\", \"address\": \"HOMEADDRESS\"}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/customers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"customers"
+							]
+						},
+						"description": "This request posts a new customer to the database. Down below is the sample body:"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Customer",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"username\": \"samplecustomer\", \"email\": \"customer@sample.com\", \"password\": \"samplepassword\"}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/customers/{username}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"customers",
+								"{username}"
+							]
+						},
+						"description": "This request updates a customer in the database. Down below is the sample body (All fields are required.):"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Customer",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/customers/{username}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"customers",
+								"{username}"
+							]
+						},
+						"description": "This request deletes the customer with the {username}. There is no body for this request."
+					},
+					"response": []
+				},
+				{
+					"name": "Add Address",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "ANOTHER HOME ADDRESS"
+						},
+						"url": {
+							"raw": "http://localhost:8080/customers/{username}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"customers",
+								"{username}"
+							]
+						},
+						"description": "This request posts a new address to the customer with {username}. Down below is the sample body: (No need to create a JSON object, the whole address can be passed as a String.)"
+					},
+					"response": []
+				}
+			],
+			"description": "The following are the API endpoints that deal with customer operations."
+		},
+		{
+			"name": "Store",
+			"item": [
+				{
+					"name": "Get Store by Username",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/stores/{username}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"stores",
+								"{username}"
+							]
+						},
+						"description": "This request gets the store with the {username}. There is no body for this request."
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Stores",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/stores",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"stores"
+							]
+						},
+						"description": "This request gets ALL store data. There is no body for this request."
+					},
+					"response": []
+				},
+				{
+					"name": "Add Store",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"username\": \"samplestore\", \"email\": \"store@sample.com\", \"password\": \"samplepassword\"}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/stores",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"stores"
+							]
+						},
+						"description": "This request posts a new store to the database. Down below is the sample body:"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Store",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"username\": \"samplestore\", \"email\": \"store@sample.com\", \"password\": \"newPassword\"}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/stores/{username}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"stores",
+								"{username}"
+							]
+						},
+						"description": "This request updates a store in the database. Down below is the sample body (All fields are required.):"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Store",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/stores/{username}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"stores",
+								"{username}"
+							]
+						},
+						"description": "This request deletes the store with the {username}. There is no body for this request."
+					},
+					"response": []
+				}
+			],
+			"description": "The following are the API endpoints that deal with store operations."
+		},
+		{
+			"name": "Product",
+			"item": [
+				{
+					"name": "Get Product by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/products/{id}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"products",
+								"{id}"
+							]
+						},
+						"description": "This request gets the product with the {id}. There is no body for this request."
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Products",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/products",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"products"
+							]
+						},
+						"description": "This request gets ALL product data. There is no body for this request."
+					},
+					"response": []
+				},
+				{
+					"name": "Add Product",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"title\": \"mePhone\", \"price\": \"29999.99\", \"description\": \"Cutting edge phone\", \"category\": \"Footwear\", \"availableStocks\": \"1000\", \"image\": \"IMAGEINBINARY\"}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/products",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"products"
+							]
+						},
+						"description": "This request posts a new product to the database. Down below is the sample body:"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Product",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"title\": \"mePhone\", \"price\": \"29999.99\", \"description\": \"Cutting edge phone\", \"category\": \"Footwear\", \"availableStocks\": \"1000\", \"image\": \"IMAGEINBINARY\"}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/products/{id}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"products",
+								"{id}"
+							]
+						},
+						"description": "This request updates a product in the database. Down below is the sample body (All fields are OPTIONAL.):"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Product",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/products/{id}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"products",
+								"{id}"
+							]
+						},
+						"description": "This request deletes the product with the {username}. There is no body for this request."
+					},
+					"response": []
+				},
+				{
+					"name": "Add Comment and Rating to Product",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"commenterUsername\": \"SAMPLECUSTOMER\", \"rating\": \"4\", \"comment\": \"works well\"}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/products/{id}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"products",
+								"{id}"
+							]
+						},
+						"description": "This request posts a new comment and rating to the product with {id}. Down below is the sample body:"
+					},
+					"response": []
+				}
+			],
+			"description": "The following are the API endpoints that deal with product operations."
+		},
+		{
+			"name": "Order",
+			"item": [
+				{
+					"name": "Get All Orders",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/orders",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"orders"
+							]
+						},
+						"description": "This request gets ALL order data. There is no body for this request."
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Orders of User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/orders/{username}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"orders",
+								"{username}"
+							]
+						},
+						"description": "This request gets ALL order data belonging to {username}. There is no body for this request."
+					},
+					"response": []
+				},
+				{
+					"name": "Add Order",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"customerUsername\": \"CUSTOMER\", \"storeUsername\": \"STORE\", \"products\": [\"ID1\", \"ID2\", \"ID3\"]}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/orders",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"orders"
+							]
+						},
+						"description": "This request posts a new order to the database, the status is created as \"Ordered\" initially. Down below is the sample body:"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Order",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"customerUsername\": \"CUSTOMER\", \"storeUsername\": \"STORE\", \"products\": [\"ID1\", \"ID2\", \"ID3\"], \"status\": \"Delivered\"}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/orders/{id}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"orders",
+								"{id}"
+							]
+						},
+						"description": "This request updates an order in the database. Down below is the sample body (All fields are required.):"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Order",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/orders/{id}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"orders",
+								"{id}"
+							]
+						},
+						"description": "This request deletes the order with the {id}. There is no body for this request."
+					},
+					"response": []
+				}
+			],
+			"description": "The following are the API endpoints that deal with order operations."
+		}
+	]
+}
