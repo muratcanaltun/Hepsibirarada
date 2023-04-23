@@ -1,0 +1,28 @@
+.cartContainer label {
+    font-size: xxx-large;
+    font-family: Georgia, serif;
+    color: rgba(24, 41, 213, 0.92);
+    font-variant: all-small-caps;
+}
+
+.cartContainer .productsHolder {
+    display: flex;
+    height: fit-content;
+}
+
+.cartContainer .infoHolder {
+    display: flex;
+    justify-content: left;
+    height: fit-content;
+
+}
+.cartContainer .infoHolder label {
+    font-size: xx-large;
+    font-family: Georgia, serif;
+    color: rgba(24, 41, 213, 0.92);
+    font-variant: all-small-caps;
+}
+
+.cartContainer {
+    transition: all 2s;
+}

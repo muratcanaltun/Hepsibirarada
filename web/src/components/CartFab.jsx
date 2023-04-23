@@ -10,7 +10,6 @@ import {setDefaultProducts, setProducts} from "../features/productsSlice";
 import request from "../api/request";
 
 let firstRender = true;
-const baseURL = "https://fakestoreapi.com/products";
 
 //this is a floating button that manages if cart drawer is open
 function CartFab() {
@@ -109,14 +108,14 @@ function CartFab() {
     };
 
     return (
-        <Fab onClick={handleDrawerOpen} size="large" style={{
+        <Fab onClick={handleDrawerOpen} id="cartFab" size="large" style={{
             position: 'fixed',
             right: "3vh",
-            top: "3vh",
+            top: "10vh",
             height: 60,
             width: 60,
             minHeight: 60,
-            backgroundColor: "rgba(189,59,0,0.76)"
+            backgroundColor: "rgba(26,58,224,0.76)"
         }}>
             <ShoppingCartIcon fontSize="large" color="action"/>
         </Fab>
