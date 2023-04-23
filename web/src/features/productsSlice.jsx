@@ -1,33 +1,24 @@
 import {createSlice} from '@reduxjs/toolkit'
 
-export class Rating {
-    constructor(props) {
-        this.rate = props.rate;
-        this.count = props.count;
-    }
-    rate= 1;
-    count = 1;
-}
-
 export class Product {
-    constructor(id, title, price, description, category, image, count, rating) {
+    constructor(id, title, price, description, category, imageLink, count, productRatings) {
         this.id = id;
         this.title = title;
         this.price = price;
         this.description = description;
         this.category = category;
-        this.image = image;
+        this.imageLink = imageLink;
         this.count = count;
-        this.rating = rating;
+        this.productRatings = productRatings;
     }
     id;
     title;
     price;
     description;
     category;
-    image;
+    imageLink;
     count;
-    rating;
+    productRatings;
 }
 
 

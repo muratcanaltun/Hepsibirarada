@@ -11,6 +11,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {setOpen} from "../features/drawerSlice";
 import CartMain from "./CartMain";
 import {Grid} from "@mui/material";
+import {useLocation} from "react-router-dom";
 
 const drawerWidth = 240;
 
@@ -63,6 +64,11 @@ export default function PersistentDrawerRight() {
     const theme = useTheme();
     const open = useSelector((state) => state.drawer.open);
     const dispatch = useDispatch();
+    const location = useLocation();
+    const currentPath = location.pathname;
+    if(currentPath === "/checkout") {
+        dispatch(setOpen(false));
+    }
 
     const handleDrawerClose = () => {
         dispatch(setOpen(false));
