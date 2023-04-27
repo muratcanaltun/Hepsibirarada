@@ -35,6 +35,7 @@
 }
 
 .description {
-    height: 12em;
+    height: 8em;
     vertical-align: top;
+    resize: none;
 }
