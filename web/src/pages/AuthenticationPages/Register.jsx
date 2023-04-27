@@ -1,5 +1,5 @@
 import "./Authentication.css";
-import React, {useEffect, useState, useRef} from "react";
+import React, { useEffect, useState, useRef } from "react";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
@@ -22,10 +22,6 @@ const Register = () => {
     const [email, setEmail] = useState("");
     const [validEmail, setValidEmail] = useState("");
     const [emailFocus, setEmailFocus] = useState("");
-
-    const [address, setAddress] = useState("");
-    const [validAddress, setValidAddress] = useState(true);
-    const [addressFocus, setAddressFocus] = useState("");
 
     const [password, setPassword] = useState("");
     const [validPassword, setValidPassword] = useState("");
@@ -72,25 +68,25 @@ const Register = () => {
             setErrorMsg("Invalid Entry");
             return;
         }
-        if (userType === "customer") {
+        if(userType === "customer"){
             axios.post(
                 "http://localhost:8080/customers",
-                {username: user, email, password, address})
+                { username: user, email, password })
                 .then(setUser(''),
-                    setEmail(''),
-                    setPassword(''),
-                    setAddress(''),
-                    setMatchPassword(''),
-                    setSuccess(true))
+                setEmail(''),
+                 setPassword(''),
+                 setMatchPassword(''),
+                 setSuccess(true))
                 .catch(err => console.log(err))
-        } else {
-            axios.post(
-                "http://localhost:8080/stores",
-                {username: user, email, password})
-                .then(setUser(''),
-                    setPassword(''),
-                    setSuccess(true))
-                .catch(err => console.log(err))
+        }
+        else{
+        axios.post(
+            "http://localhost:8080/stores",
+            { username: user, email, password })
+            .then(setUser(''),
+            setPassword(''),
+            setSuccess(true))
+            .catch(err => console.log(err))
         }
     };
 
@@ -139,8 +135,8 @@ const Register = () => {
                                     userFocus && user && !validName ? "instrucitons" : "offscreen"
                                 }
                             >
-                                4 to 24 characters. <br/>
-                                Must begin with a letter. <br/>
+                                4 to 24 characters. <br />
+                                Must begin with a letter. <br />
                             </p>
                         ) : null}
                         <label for="email" className="label">
@@ -168,24 +164,9 @@ const Register = () => {
                                         : "offscreen"
                                 }
                             >
-                                Enter a valid email. <br/>
+                                Enter a valid email. <br />
                             </p>
                         ) : null}
-                        <label htmlFor="address" className="label">
-                            Address:
-                        </label>
-                        <input
-                            className="input"
-                            type="text"
-                            id="address"
-                            onChange={(e) => {
-                                setAddress(e.target.value);
-                            }}
-                            required
-                            aria-invalid={validAddress ? "false" : "true"}
-                            onFocus={() => setAddressFocus(true)}
-                            onBlur={() => setAddressFocus(false)}
-                        />
                         <label for="password" className="label">
                             Password:
                         </label>
@@ -209,9 +190,9 @@ const Register = () => {
                                     passwordFocus && !validPassword ? "instructions" : "offscreen"
                                 }
                             >
-                                8 to 24 characters. <br/>
+                                8 to 24 characters. <br />
                                 Must include uppercase and lowercase letters and a number.{" "}
-                                <br/>
+                                <br />
                             </p>
                         ) : null}
                         <label for="confirm_password" className="label">
@@ -239,7 +220,7 @@ const Register = () => {
                                         : "offscreen"
                                 }
                             >
-                                Must match the password. <br/>
+                                Must match the password. <br />
                             </p>
                         ) : null}
                         <FormControl>
@@ -255,19 +236,21 @@ const Register = () => {
                             >
                                 <FormControlLabel
                                     value="customer"
-                                    control={<Radio/>}
+                                    control={<Radio />}
                                     label="Customer"
                                 />
                                 <FormControlLabel
                                     value="store"
-                                    control={<Radio/>}
+                                    control={<Radio />}
                                     label="Store"
                                 />
                             </RadioGroup>
                         </FormControl>
                         <button
                             disabled={
-                                !validName || !validPassword || !validMatchPassword || !validAddress
+                                !validName || !validPassword || !validMatchPassword
+                                    ? true
+                                    : false
                             }
                         >
                             Sign Up
@@ -275,7 +258,7 @@ const Register = () => {
                     </form>
                     <p className="already-signed-in">
                         Already Registered?
-                        <br/>
+                        <br />
                         <span className="line">
                             <a href="/login">Sign In</a>
                         </span>
