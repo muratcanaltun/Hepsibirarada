@@ -38,7 +38,7 @@ function ProductPage() {
                             name="simple-controlled"
                             value={product.productRatings.reduce((acc, commentInfo) => acc + commentInfo.rating, 0) / product.productRatings.length}
                             readOnly
-                            precision={0.1}
+                            precision={1}
                         />
                     }
                 </Grid>
@@ -74,7 +74,7 @@ function ProductPage() {
                                         <h4 style={{margin: 0, textAlign: "left"}}>{commentInfo.commenterUsername}</h4>
                                         <Rating
                                             name="simple-controlled"
-                                            precision={0.1}
+                                            precision={1}
                                             readOnly
                                             value={commentInfo.rating}
                                         />
