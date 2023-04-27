@@ -143,22 +143,23 @@ const Register = () => {
                                 Must begin with a letter. <br/>
                             </p>
                         ) : null}
-                        <label for="email" className="label">
-                            E-Mail:
-                        </label>
-                        <input
-                            className="input"
-                            type="email"
-                            id="email"
-                            onChange={(e) => {
-                                setEmail(e.target.value);
-                            }}
-                            required
-                            aria-invalid={validEmail ? "false" : "true"}
-                            aria-describedby="emailnote"
-                            onFocus={() => setEmailFocus(true)}
-                            onBlur={() => setEmailFocus(false)}
-                        ></input>
+                        {userType === 'customer' && <>
+                            <label for="email" className="label">
+                                E-Mail:
+                            </label>
+                            <input
+                                className="input"
+                                type="email"
+                                id="email"
+                                onChange={(e) => {
+                                    setEmail(e.target.value);
+                                }}
+                                required
+                                aria-invalid={validEmail ? "false" : "true"}
+                                aria-describedby="emailnote"
+                                onFocus={() => setEmailFocus(true)}
+                                onBlur={() => setEmailFocus(false)}
+                            /></>}
                         {!validEmail && emailFocus ? (
                             <p
                                 id="emailnote"
@@ -171,21 +172,21 @@ const Register = () => {
                                 Enter a valid email. <br/>
                             </p>
                         ) : null}
-                        <label htmlFor="address" className="label">
+                        {userType === 'customer' && <><label htmlFor="address" className="label">
                             Address:
                         </label>
-                        <input
-                            className="input"
-                            type="text"
-                            id="address"
-                            onChange={(e) => {
-                                setAddress(e.target.value);
-                            }}
-                            required
-                            aria-invalid={validAddress ? "false" : "true"}
-                            onFocus={() => setAddressFocus(true)}
-                            onBlur={() => setAddressFocus(false)}
-                        />
+                            <input
+                                className="input"
+                                type="text"
+                                id="address"
+                                onChange={(e) => {
+                                    setAddress(e.target.value);
+                                }}
+                                required
+                                aria-invalid={validAddress ? "false" : "true"}
+                                onFocus={() => setAddressFocus(true)}
+                                onBlur={() => setAddressFocus(false)}
+                            /></>}
                         <label for="password" className="label">
                             Password:
                         </label>
@@ -201,7 +202,7 @@ const Register = () => {
                             aria-describedby="pwdnote"
                             onFocus={() => setPasswordFocus(true)}
                             onBlur={() => setPasswordFocus(false)}
-                        ></input>
+                        />
                         {!validPassword && passwordFocus ? (
                             <p
                                 id="pwdnote"
@@ -229,7 +230,7 @@ const Register = () => {
                             aria-describedby="confirmnote"
                             onFocus={() => setMatchPasswordFocus(true)}
                             onBlur={() => setMatchPasswordFocus(false)}
-                        ></input>
+                        />
                         {!validMatchPassword && matchPasswordFocus ? (
                             <p
                                 id="confirmnote"
