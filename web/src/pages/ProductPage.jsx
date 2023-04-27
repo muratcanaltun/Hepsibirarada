@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Button, Grid, Paper, Rating} from "@mui/material";
+import {Button, Grid, Paper, Rating, TextField} from "@mui/material";
 import {Link, useParams} from "react-router-dom";
 import "./ProductPage.css";
 import {addItem} from "../features/cartSlice";
@@ -8,7 +8,15 @@ import request from "../api/request";
 
 function ProductPage() {
     const dispatch = useDispatch();
-    const [product, setProduct] = useState({title: " ", description: " ", imageLink: "", price: "", category: "", productRatings: [], count: 1});
+    const [product, setProduct] = useState({
+        title: " ",
+        description: " ",
+        imageLink: "",
+        price: "",
+        category: "",
+        productRatings: [],
+        count: 1
+    });
     let {id} = useParams();
 
     //get a dummy product and comments according to id
@@ -31,7 +39,8 @@ function ProductPage() {
             <Link className="foreground" to="/">Return Home</Link>
             <Grid item container xs={12} justifyContent="center" display="flex" spacing={"2px"}
                   className="productPageContainer">
-                <Grid item container xs={12} justifyContent="start" flexDirection={'column'} alignItems={'center'} display="flex" padding="3px" marginTop="3vh">
+                <Grid item container xs={12} justifyContent="start" flexDirection={'column'} alignItems={'center'}
+                      display="flex" padding="3px" marginTop="3vh">
                     <label><b>{product.title}</b></label>
                     {
                         product.productRatings.length > 0 && <Rating
@@ -59,7 +68,6 @@ function ProductPage() {
                 <Grid item container xs={12} justifyContent="center" display="flex" marginTop="2vh">
                     <label className="foreground">${product.price}</label>
                 </Grid>
-
             </Grid>
 
             <Grid className="Main" container xs={12} md={10}>
@@ -92,4 +100,5 @@ function ProductPage() {
     );
 
 }
+
 export default ProductPage;

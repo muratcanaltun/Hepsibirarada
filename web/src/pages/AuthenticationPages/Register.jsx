@@ -143,23 +143,22 @@ const Register = () => {
                                 Must begin with a letter. <br/>
                             </p>
                         ) : null}
-                        {userType === 'customer' && <>
-                            <label for="email" className="label">
-                                E-Mail:
-                            </label>
-                            <input
-                                className="input"
-                                type="email"
-                                id="email"
-                                onChange={(e) => {
-                                    setEmail(e.target.value);
-                                }}
-                                required
-                                aria-invalid={validEmail ? "false" : "true"}
-                                aria-describedby="emailnote"
-                                onFocus={() => setEmailFocus(true)}
-                                onBlur={() => setEmailFocus(false)}
-                            /></>}
+                        <label for="email" className="label">
+                            E-Mail:
+                        </label>
+                        <input
+                            className="input"
+                            type="email"
+                            id="email"
+                            onChange={(e) => {
+                                setEmail(e.target.value);
+                            }}
+                            required
+                            aria-invalid={validEmail ? "false" : "true"}
+                            aria-describedby="emailnote"
+                            onFocus={() => setEmailFocus(true)}
+                            onBlur={() => setEmailFocus(false)}
+                        />
                         {!validEmail && emailFocus ? (
                             <p
                                 id="emailnote"
