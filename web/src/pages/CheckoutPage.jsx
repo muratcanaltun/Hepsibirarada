@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Grid} from "@mui/material";
 import "./CheckoutPage.css";
 import PaymentComp from "../components/Checkout/Payment";
@@ -8,6 +8,18 @@ import HorizontalLinearStepper from "../components/Checkout/Stepper";
 
 function CheckoutPage() {
     const [activeStep, setActiveStep] = React.useState(0);
+
+
+
+
+
+
+
+
+
+
+
+
     return (
         <Grid container className="checkoutMain" id="checkoutMain">
             <Grid item xs={12} justifyContent="center" height={"100px"}>

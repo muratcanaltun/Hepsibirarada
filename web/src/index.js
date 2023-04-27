@@ -17,6 +17,7 @@ import CartFab from "./components/CartFab";
 import PersistentDrawerRight from "./components/PersistentDrawerRight";
 import {CookiesProvider} from "react-cookie";
 import CheckoutPage from "./pages/CheckoutPage";
+import OrdersPage from "./pages/OrdersPage";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -37,6 +38,7 @@ root.render(
             <Route path="register" element={<Register />} />
             <Route path="deleteAccount" element={<DeleteAccount/>} />
             <Route path="checkout" element={<CheckoutPage/>} />
+            <Route path="orders" element={<OrdersPage/>} />
         </Routes>
     </BrowserRouter>
     </Provider>
