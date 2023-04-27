@@ -8,7 +8,6 @@ function AddProductPage(){
             <header className="App-header">
                 <AddProduct/>
             </header>
-
         </div>
     )
 }
