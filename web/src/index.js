@@ -20,6 +20,7 @@ import CheckoutPage from "./pages/CheckoutPage";
 import EditProductPage from "./pages/EditProductPage"
 import { AuthProvider } from './context/AuthProvider';
 import useAuth from "./hooks/useAuth";
+import OrdersPage from "./pages/OrdersPage";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -42,6 +43,7 @@ root.render(
                         <Route path="register" element={<Register />} />
                         <Route path="deleteAccount" element={<DeleteAccount />} />
                         <Route path="checkout" element={<CheckoutPage />} />
+                        <Route path="orders" element={<OrdersPage/>} />
                         <Route path="editProduct">
                             <Route path=":id" element={<EditProductPage />} />
                         </Route>

@@ -2,9 +2,31 @@ import React, { useState, useEffect } from "react";
 import { Button, Form, Input, Label } from "reactstrap";
 import "./EditProduct.css";
 import axios from "axios";
-import {useParams} from 'react-router-dom'
+import {useNavigate, useParams} from 'react-router-dom'
+import request from "../../../api/request";
 
 const EditProduct = () => {
+  const {id} = useParams();
+  let navigate = useNavigate();
+
+  useEffect(() => {
+    const getProduct = async () => {
+      const product = await request.product.getProduct(id).then(({data}) => data);
+      //set product count or else there is no count here and it fails while adding to cart
+      product.count = 1;
+      setTitle(product.title);
+      setPrice(String(product.price));
+      setDescription(product.description);
+      setCategory(product.category);
+      setAvailableStocks(String(product.availableStocks));
+      setImageLink(product.imageLink);
+    }
+
+    getProduct().catch(e => console.log(e));
+
+
+  }, []);
+
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("Electronics");
@@ -12,7 +34,7 @@ const EditProduct = () => {
   const [availableStocks, setAvailableStocks] = useState("");
   const [imageLink, setImageLink] = useState("");
 
-  const {id} = useParams();
+
 
   const categories = [
     "Electronics",
@@ -27,18 +49,20 @@ const EditProduct = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     await axios.put('http://localhost:8080/products/'+id, {
-      title,
-      price,
-      description,
-      category,
-      availableStocks,
-      imageLink,
-    }).then(response => {
+      title: title,
+      price: price,
+      description: description,
+      category: category,
+      availableStocks: availableStocks,
+      imageLink: imageLink,
+    }, {
+      headers: {'Content-Type': 'application/json'}}).then(response => {
       console.log(response);
     })
     .catch(error => {
       console.log(error);
     });
+    navigate(`/product/${id}`, {replace: true});
   };
 
   const deleteProduct = async () => {
@@ -48,7 +72,7 @@ const EditProduct = () => {
     .catch(error => {
       console.log(error);
     });
-
+    navigate(`/`, {replace: true});
   }
 
   return (
@@ -61,6 +85,7 @@ const EditProduct = () => {
         <Input
           className="input"
           type="text"
+          value={title}
           id="title"
           autoComplete="off"
           onChange={(e) => {
@@ -75,6 +100,7 @@ const EditProduct = () => {
           className="input"
           type="text"
           id="price"
+          value={price}
           autoComplete="off"
           onChange={(e) => {
             setPrice(e.target.value);
@@ -88,6 +114,7 @@ const EditProduct = () => {
           className="textarea"
           type="textarea"
           id="description"
+          value={description}
           autoComplete="off"
           rows="4" 
           cols="40"
@@ -103,6 +130,7 @@ const EditProduct = () => {
           className="input"
           type="select"
           id="category"
+          value={category}
           autoComplete="off"
           onChange={(e) => {
             setCategory(e.target.value);
@@ -115,9 +143,10 @@ const EditProduct = () => {
         </Label>
         <Input
           className="input"
-          type="number"
+          type="text"
           id="availableStocks"
           autoComplete="off"
+          value={availableStocks}
           onChange={(e) => {
             setAvailableStocks(e.target.value);
           }}
@@ -131,6 +160,7 @@ const EditProduct = () => {
           type="text"
           id="imageLink"
           autoComplete="off"
+          value={imageLink}
           onChange={(e) => {
             setImageLink(e.target.value);
           }}
