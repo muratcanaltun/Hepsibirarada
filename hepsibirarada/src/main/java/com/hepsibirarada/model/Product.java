@@ -17,18 +17,18 @@ public class Product {
     private String category;
     private boolean stopSales;
     private int availableStocks;
-    private String image;
+    private String imageLink;
     private List<ProductRating> productRatings;
 
     public Product(String title, double price, String description,
-                   String category, int availableStocks, String image) {
+                   String category, int availableStocks, String imageLink) {
         super();
         this.title = title;
         this.price = price;
         this.description = description;
         this.category = category;
         this.availableStocks = availableStocks;
-        this.image = image;
+        this.imageLink = imageLink;
         stopSales = false;
         productRatings = new ArrayList<>();
     }
@@ -89,12 +89,12 @@ public class Product {
         this.stopSales = stopSales;
     }
 
-    public String getImage() {
-        return image;
+    public String getImageLink() {
+        return imageLink;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setImageLink(String imageLink) {
+        this.imageLink = imageLink;
     }
 
     public void addProductRating(ProductRating productRating) {
