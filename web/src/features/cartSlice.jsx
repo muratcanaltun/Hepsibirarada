@@ -15,7 +15,7 @@ export function getProductFromID(ProductsArray, id) {
             }
         }
     }
-    return;
+    return -1;
 }
 
 //since normal index functions can't differentiate between objects I had to create one

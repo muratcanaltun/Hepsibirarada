@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {Button, Grid, Paper, Rating, TextField} from "@mui/material";
-import {Link, useParams} from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 import "./ProductPage.css";
 import {addItem} from "../features/cartSlice";
 import {useDispatch} from "react-redux";
@@ -8,6 +8,7 @@ import request from "../api/request";
 
 function ProductPage() {
     const dispatch = useDispatch();
+    let navigate = useNavigate();
     const [product, setProduct] = useState({
         title: " ",
         description: " ",
@@ -33,6 +34,10 @@ function ProductPage() {
 
     const addToCart = () => {
         dispatch(addItem(product));
+    }
+
+    const editProduct = () => {
+        navigate(`/editProduct/${id}`, {replace: true});
     }
 
     return (<Grid container display="flex" justifyContent="center" className="productPageMain">
@@ -61,6 +66,9 @@ function ProductPage() {
                     <Button className="item3" onClick={() => {
                         addToCart();
                     }} variant="contained" sx={{backgroundColor: "rgba(220,72,46,0.72)"}}>Add To Cart</Button>
+                    <Button className="item3" onClick={() => {
+                        editProduct();
+                    }} variant="contained" sx={{backgroundColor: "rgba(220,72,46,0.72)"}}>Edit Product</Button>
                 </Grid>
                 <Grid item container xs={12} justifyContent="center" display="flex" marginTop="2vh">
                     <label className="foreground">{product.description}</label>

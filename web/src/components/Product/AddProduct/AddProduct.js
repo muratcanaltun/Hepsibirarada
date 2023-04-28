@@ -3,6 +3,7 @@ import {Button, Form, FormGroup, Input, Label} from "reactstrap";
 import "./AddProduct.css";
 import {Controller, useForm} from "react-hook-form";
 import request from '../../../api/request'
+import axios from "axios";
 
 const AddProduct = () => {
     const [stores, setStores] = useState([])
@@ -24,13 +25,16 @@ const AddProduct = () => {
     })
 
     const onSubmit = useCallback(state => {
+        console.log("I'm in onsubmit function");
         request.product.addProduct(state).catch(e => console.log(e))
     }, [])
 
     useEffect(() => {
         const setStoresFromServer = async () => {
-            const currentStores = await request.store().then(({data}) => data)
-            setStores(currentStores)
+            const currentStores = await axios.get(`http://localhost:8080/stores`);
+            let currentStoresData = currentStores.data;
+            setStores(currentStoresData);
+            console.log(currentStoresData);
             resetField('store', {
                 defaultValue: currentStores[0].username
             })
@@ -56,7 +60,7 @@ const AddProduct = () => {
                     required
                     size="20"
                     minlength="2"
-                    maxlength="10"
+                    maxlength="20"
                 />} name={'title'}/>
             </FormGroup>
             <FormGroup className="formGroup">
