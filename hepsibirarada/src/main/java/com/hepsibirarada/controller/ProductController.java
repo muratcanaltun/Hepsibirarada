@@ -46,7 +46,7 @@ public class ProductController {
         Product product = new Product(parsedJSON.get("title"), Double.parseDouble(parsedJSON.get("price")),
                 parsedJSON.get("description"),
                 parsedJSON.get("category"), Integer.parseInt(parsedJSON.get("availableStocks")),
-                parsedJSON.get("image"));
+                parsedJSON.get("imageLink"));
         Store store = storeRepository.findByUsername(parsedJSON.get("store"));
 
         if (productRepository.findByID(product.getId()) == null && store != null) {

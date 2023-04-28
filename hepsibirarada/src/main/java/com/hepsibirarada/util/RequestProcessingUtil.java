@@ -30,7 +30,7 @@ public class RequestProcessingUtil {
             product.setDescription(checkIfFieldIsEmpty(productJSON.get("description"), product.getDescription()));
             product.setCategory(checkIfFieldIsEmpty(productJSON.get("category"), product.getCategory()));
             product.setAvailableStocks(checkIfFieldIsEmpty(productJSON.get("availableStocks"), product.getAvailableStocks()));
-            product.setImage(checkIfFieldIsEmpty(productJSON.get("image"), product.getImage()));
+            product.setImageLink(checkIfFieldIsEmpty(productJSON.get("imageLink"), product.getImageLink()));
         }
 
         return product;
