@@ -58,7 +58,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"username\": \"samplecustomer\", \"email\": \"customer@sample.com\", \"password\": \"samplepassword\", \"address\": \"HOMEADDRESS\"}"
+							"raw": "{\"username\": \"samplecustomer\", \"email\": \"customer@sample.com\", \"password\": \"samplepassword\", \"addressTitle\": \"HOME\", \"address\": \"HOME STREET, HOME APARTMENT\"}"
 						},
 						"url": {
 							"raw": "http://localhost:8080/customers",
@@ -128,10 +128,10 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "ANOTHER HOME ADDRESS"
+							"raw": "{\"addressTitle\": \"WORK\", \"address\": \"LONG WORK ADDRESS HERE\"}"
 						},
 						"url": {
-							"raw": "http://localhost:8080/customers/{username}",
+							"raw": "http://localhost:8080/customers/samplecustomer",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -139,7 +139,7 @@
 							"port": "8080",
 							"path": [
 								"customers",
-								"{username}"
+								"samplecustomer"
 							]
 						},
 						"description": "This request posts a new address to the customer with {username}. Down below is the sample body: (No need to create a JSON object, the whole address can be passed as a String.)"
@@ -262,6 +262,150 @@
 						"description": "This request deletes the store with the {username}. There is no body for this request."
 					},
 					"response": []
+				},
+				{
+					"name": "Accept Store",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/acceptStore/{username}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"acceptStore",
+								"{username}"
+							]
+						},
+						"description": "This request accepts the store with the {username}. There is no body for this request."
+					},
+					"response": []
+				},
+				{
+					"name": "Reject Store",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/rejectStore/{username}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"rejectStore",
+								"{username}"
+							]
+						},
+						"description": "This request rejects the store with the {username}. There is no body for this request."
+					},
+					"response": []
+				},
+				{
+					"name": "Suspend Store",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/suspendStore/{username}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"suspendStore",
+								"{username}"
+							]
+						},
+						"description": "This request suspends the store with the {username}. There is no body for this request."
+					},
+					"response": []
+				},
+				{
+					"name": "Unsuspend Store",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/unsuspendStore/{username}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"unsuspendStore",
+								"{username}"
+							]
+						},
+						"description": "This request unsuspends the store with the {username}. There is no body for this request."
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Available Stores",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/availableStores",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"availableStores"
+							]
+						},
+						"description": "This request gets all available stores. There is no body for this request."
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Suspended Stores",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/suspendedStores",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"suspendedStores"
+							]
+						},
+						"description": "This request gets all suspended stores. There is no body for this request."
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Not Accepted Stores",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/rejectedStores",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"rejectedStores"
+							]
+						},
+						"description": "This request gets all rejected or not accepted stores. There is no body for this request."
+					},
+					"response": []
 				}
 			],
 			"description": "The following are the API endpoints that deal with store operations."
@@ -376,7 +520,7 @@
 								"{id}"
 							]
 						},
-						"description": "This request deletes the product with the {username}. There is no body for this request."
+						"description": "This request deletes the product with the {id}. There is no body for this request."
 					},
 					"response": []
 				},
@@ -402,6 +546,88 @@
 							]
 						},
 						"description": "This request posts a new comment and rating to the product with {id}. Down below is the sample body:"
+					},
+					"response": []
+				},
+				{
+					"name": "Suspend Product",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/suspendProduct/{id}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"suspendProduct",
+								"{id}"
+							]
+						},
+						"description": "This request suspends the product with the {id}. There is no body for this request."
+					},
+					"response": []
+				},
+				{
+					"name": "Unsuspend Product",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/unsuspendProduct/{id}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"unsuspendProduct",
+								"{id}"
+							]
+						},
+						"description": "This request unsuspends the product with the {id}. There is no body for this request."
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Available Products",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/availableProducts",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"availableProducts"
+							]
+						},
+						"description": "This request gets all available products. There is no body for this request."
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Suspended Products",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/suspendedProducts",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"suspendedProducts"
+							]
+						},
+						"description": "This request gets all suspended products. There is no body for this request."
 					},
 					"response": []
 				}
