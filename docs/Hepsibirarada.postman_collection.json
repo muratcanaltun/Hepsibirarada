@@ -275,12 +275,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/products/{id}",
+							"raw": "http://localhost:8080/products/{id}",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "3000",
+							"port": "8080",
 							"path": [
 								"products",
 								"{id}"
@@ -317,15 +317,15 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"title\": \"mePhone\", \"price\": \"29999.99\", \"description\": \"Cutting edge phone\", \"category\": \"Footwear\", \"availableStocks\": \"1000\", \"image\": \"IMAGEINBINARY\"}"
+							"raw": "{\"title\": \"mePhone\", \"price\": \"30000\", \"description\": \"Cutting edge phone\", \"category\": \"Electronics\", \"availableStocks\": \"1000\", \"imageLink\": \"https://thumbs.dreamstime.com/b/new-modern-frameless-smartphone-mockup-white-screen-isolated-background-black-blank-based-high-quality-studio-shot-design-99882006.jpg\"}"
 						},
 						"url": {
-							"raw": "http://localhost:3000/products",
+							"raw": "http://localhost:8080/products",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "3000",
+							"port": "8080",
 							"path": [
 								"products"
 							]
@@ -459,7 +459,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"customerUsername\": \"CUSTOMER\", \"storeUsername\": \"STORE\", \"products\": [\"ID1\", \"ID2\", \"ID3\"]}"
+							"raw": "{\"customerUsername\": \"CUSTOMER\", \"address\": \"ADDRESSTITLE\", \"products\": [\"ID1\", \"5\", \"ID2\", \"3\"]}"
 						},
 						"url": {
 							"raw": "http://localhost:8080/orders",
@@ -483,7 +483,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"customerUsername\": \"CUSTOMER\", \"storeUsername\": \"STORE\", \"products\": [\"ID1\", \"ID2\", \"ID3\"], \"status\": \"Delivered\"}"
+							"raw": "{\"customerUsername\": \"CUSTOMER\", \"address\": \"ADDRESSTITLE\", \"products\": [\"ID1\", \"5\", \"ID2\", \"3\"], \"status\": \"Delivered\"}"
 						},
 						"url": {
 							"raw": "http://localhost:8080/orders/{id}",
