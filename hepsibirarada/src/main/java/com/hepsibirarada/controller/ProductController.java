@@ -93,4 +93,40 @@ public class ProductController {
         }
         return product;
     }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PostMapping("/suspendProduct/{id}")
+    Product suspendProduct(@PathVariable String id) {
+        Product product = productRepository.findByID(id);
+
+        if (product != null) {
+            product.setStopSales(true);
+            return productRepository.save(product);
+        }
+        return product;
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PostMapping("/unsuspendProduct/{id}")
+    Product unsuspendProduct(@PathVariable String id) {
+        Product product = productRepository.findByID(id);
+
+        if (product != null) {
+            product.setStopSales(false);
+            return productRepository.save(product);
+        }
+        return product;
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/availableProducts")
+    List<Product> getAllAvailable() {
+        return productRepository.findAllAvailable();
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/suspendedProducts")
+    List<Product> getAllSuspended() {
+        return productRepository.findAllSuspended();
+    }
 }

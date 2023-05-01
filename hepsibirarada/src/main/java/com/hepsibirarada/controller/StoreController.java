@@ -2,13 +2,17 @@ package com.hepsibirarada.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hepsibirarada.model.Product;
 import com.hepsibirarada.model.Store;
+import com.hepsibirarada.repository.ProductRepository;
 import com.hepsibirarada.repository.StoreRepository;
 import com.hepsibirarada.util.AccountAuthenticationUtil;
 import com.hepsibirarada.util.RequestProcessingUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +21,8 @@ public class StoreController {
 
     @Autowired
     StoreRepository storeRepository;
+    @Autowired
+    ProductRepository productRepository;
     AccountAuthenticationUtil accountAuthenticationUtil = new AccountAuthenticationUtil();
     RequestProcessingUtil requestProcessingUtil = new RequestProcessingUtil();
 
@@ -70,6 +76,81 @@ public class StoreController {
     @CrossOrigin(origins = "http://localhost:3000")
     @DeleteMapping("/stores/{username}")
     Store deleteStore(@PathVariable String username) {
+        Store store = storeRepository.findByUsername(username);
+        deleteAllProductsFromStore(store.getProducts());
+
         return storeRepository.deleteByUsername(username);
+    }
+
+    void deleteAllProductsFromStore(List<String> products) {
+        for (String product : products) {
+            productRepository.deleteByID(product);
+        }
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PostMapping("/suspendStore/{username}")
+    Store suspendStore(@PathVariable String username) {
+        Store store = storeRepository.findByUsername(username);
+
+        if (store != null) {
+            store.setSuspended(true);
+            return storeRepository.save(store);
+        }
+        return store;
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PostMapping("/unsuspendStore/{username}")
+    Store unsuspendStore(@PathVariable String username) {
+        Store store = storeRepository.findByUsername(username);
+
+        if (store != null) {
+            store.setSuspended(false);
+            return storeRepository.save(store);
+        }
+        return store;
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PostMapping("/acceptStore/{username}")
+    Store acceptStore(@PathVariable String username) {
+        Store store = storeRepository.findByUsername(username);
+
+        if (store != null) {
+            store.setAccepted(true);
+            return storeRepository.save(store);
+        }
+        return store;
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PostMapping("/rejectStore/{username}")
+    Store rejectStore(@PathVariable String username) {
+        Store store = storeRepository.findByUsername(username);
+
+        if (store != null) {
+            store.setAccepted(false);
+            return storeRepository.save(store);
+        }
+        return store;
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/availableStores")
+    List<Store> getAllAvailable() {
+        return storeRepository.findAvailable();
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/suspendedStores")
+    List<Store> getAllSuspended() {
+        return storeRepository.findAllSuspended();
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/rejectedStores")
+    List<Store> getAllRejected() {
+        return storeRepository.findAllNotAccepted();
     }
 }

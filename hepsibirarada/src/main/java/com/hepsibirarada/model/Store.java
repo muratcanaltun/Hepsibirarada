@@ -14,6 +14,8 @@ public class Store {
     private String username;
     private String email;
     private String password;
+    private boolean suspended;
+    private boolean accepted;
     private List<String> products;
 
     public Store(String username, String email, String password) {
@@ -21,6 +23,7 @@ public class Store {
         this.username = username;
         this.email = email;
         this.password = password;
+        this.suspended = false;
         products = new ArrayList<String>();
     }
 
@@ -70,5 +73,21 @@ public class Store {
 
     public void setProducts(List<String> products) {
         this.products = products;
+    }
+
+    public boolean isSuspended() {
+        return suspended;
+    }
+
+    public void setSuspended(boolean suspended) {
+        this.suspended = suspended;
+    }
+
+    public boolean isAccepted() {
+        return accepted;
+    }
+
+    public void setAccepted(boolean accepted) {
+        this.accepted = accepted;
     }
 }
