@@ -13,10 +13,6 @@ public interface OrderRepository extends MongoRepository<Order, String> {
 
     @DeleteQuery("{id:'?0'}")
     Order deleteByID(String id);
-
-    @Query("{storeUsername:'?0'}")
-    List<Order> findByStore(String username);
-
     @Query("{customerUsername:'?0'}")
     List<Order> findByCustomer(String username);
 }

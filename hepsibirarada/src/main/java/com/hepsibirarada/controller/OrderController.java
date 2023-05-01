@@ -5,12 +5,10 @@ import com.hepsibirarada.model.Order;
 import com.hepsibirarada.repository.OrderRepository;
 import com.hepsibirarada.util.RequestProcessingUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.util.Pair;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 public class OrderController {
@@ -31,13 +29,7 @@ public class OrderController {
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/orders/{username}")
     List<Order> getAllFromUser(@PathVariable String username) {
-        List<Order> orders = orderRepository.findByCustomer(username);
-
-        if (orders.isEmpty()) {
-            orders = orderRepository.findByStore(username);
-        }
-
-        return orders;
+        return orderRepository.findByCustomer(username);
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
@@ -45,7 +37,7 @@ public class OrderController {
     Order newOrder(@RequestBody String body) throws JsonProcessingException {
         Map<String, Object> parsedJSON = requestProcessingUtil.parseJSONTypeFree(body);
 
-        Order order = new Order((String) parsedJSON.get("customerUsername"), (String) parsedJSON.get("storeUsername"));
+        Order order = new Order((String) parsedJSON.get("customerUsername"), (String) parsedJSON.get("address"));
         order.setProducts((ArrayList<String>) parsedJSON.get("products"));
 
         return orderRepository.save(order);
@@ -56,7 +48,7 @@ public class OrderController {
     Order updateOrder(@PathVariable String id, @RequestBody String body) throws JsonProcessingException {
         Map<String, Object> parsedJSON = requestProcessingUtil.parseJSONTypeFree(body);
 
-        Order order = new Order((String) parsedJSON.get("customerUsername"), (String) parsedJSON.get("storeUsername"));
+        Order order = new Order((String) parsedJSON.get("customerUsername"), (String) parsedJSON.get("address"));
         order.setStatus((String) parsedJSON.get("status"));
         order.setProducts((ArrayList<String>) parsedJSON.get("products"));
 

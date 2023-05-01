@@ -2,24 +2,26 @@ package com.hepsibirarada.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.util.Pair;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 @Document("orders")
 public class Order {
     @Id
     private String id;
     private String customerUsername;
-    private String storeUsername;
+    private String address;
     private Date timestamp;
     private ArrayList<String> products;
     private String status;
 
-    public Order(String customerUsername, String storeUsername) {
+    public Order(String customerUsername, String address) {
         super();
         this.customerUsername = customerUsername;
-        this.storeUsername = storeUsername;
+        this.address = address;
         this.timestamp = new Date();
         products = new ArrayList<>();
         this.status = "Ordered";
@@ -41,12 +43,12 @@ public class Order {
         this.customerUsername = customerUsername;
     }
 
-    public String getStoreUsername() {
-        return storeUsername;
+    public String getAddress() {
+        return address;
     }
 
-    public void setStoreUsername(String storeUsername) {
-        this.storeUsername = storeUsername;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public Date getTimestamp() {
