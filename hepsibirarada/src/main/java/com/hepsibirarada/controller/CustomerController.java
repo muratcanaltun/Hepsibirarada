@@ -44,7 +44,7 @@ public class CustomerController {
 
         Customer customer = new Customer(parsedJSON.get("username"), parsedJSON.get("email"),
                 accountAuthenticationUtil.encryptPassword(parsedJSON.get("password")));
-        customer.addAddress(parsedJSON.get("address"));
+        customer.addAddress(parsedJSON.get("address"), parsedJSON.get("addressTitle"));
 
         if (customerRepository.findByUsername(customer.getUsername()) == null) {
             return customerRepository.save(customer);
@@ -75,11 +75,13 @@ public class CustomerController {
 
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/customers/{username}")
-    Customer addAddress(@PathVariable String username, @RequestBody String body) {
+    Customer addAddress(@PathVariable String username, @RequestBody String body) throws JsonProcessingException {
+        Map<String, String> parsedJSON = requestProcessingUtil.parseJSON(body);
+
         Customer customer = customerRepository.findByUsername(username);
 
         if (customer != null) {
-            customer.addAddress(body);
+            customer.addAddress(parsedJSON.get("address"), parsedJSON.get("addressTitle"));
             return customerRepository.save(customer);
         }
 

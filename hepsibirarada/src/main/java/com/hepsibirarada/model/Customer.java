@@ -3,7 +3,10 @@ package com.hepsibirarada.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.AbstractMap;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 @Document("customers")
 public class Customer {
@@ -13,14 +16,14 @@ public class Customer {
     private String username;
     private String email;
     private String password;
-    private ArrayList<String> addresses;
+    private HashMap<String, String> addresses;
 
     public Customer(String username, String email, String password) {
         super();
         this.username = username;
         this.email = email;
         this.password = password;
-        this.addresses = new ArrayList<>();
+        this.addresses = new HashMap<>();
     }
 
     public String getId() {
@@ -55,15 +58,15 @@ public class Customer {
         this.password = password;
     }
 
-    public ArrayList<String> getAddresses() {
+    public HashMap<String, String> getAddresses() {
         return addresses;
     }
 
-    public void setAddresses(ArrayList<String> addresses) {
+    public void setAddresses(HashMap<String, String> addresses) {
         this.addresses = addresses;
     }
 
-    public void addAddress(String address) {
-        this.addresses.add(address);
+    public void addAddress(String address, String title) {
+        this.addresses.put(title, address);
     }
 }
