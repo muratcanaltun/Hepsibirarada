@@ -166,7 +166,7 @@ const EditProduct = () => {
           required
         ></Input>
         <Label for="imageLink" className="label">
-          Image Link:
+          Product Image
         </Label>
         <input id="imageInput" type="file" onChange={() =>encodeImageFileAsURL()}/>
         <Button type="submit" className="button">

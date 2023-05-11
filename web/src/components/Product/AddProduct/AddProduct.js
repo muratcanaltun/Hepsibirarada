@@ -167,7 +167,7 @@ const AddProduct = () => {
             <FormGroup className="formGroup">
                 {" "}
                 <Label for="imageLink" className="label">
-                    Product image link
+                    Product image
                 </Label>
                 <input id="imageInput" type="file" onChange={() =>encodeImageFileAsURL()}/>
             </FormGroup>
