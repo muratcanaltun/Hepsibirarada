@@ -16,6 +16,11 @@
     height: 3vh;
 
 }
+textarea {
+    resize: none;
+    min-width: 250px;
+    min-height: 100px;
+}
 
 .productPageMain {
     margin: 0;
