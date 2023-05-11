@@ -5,6 +5,9 @@ import "./ProductPage.css";
 import {addItem} from "../features/cartSlice";
 import {useDispatch} from "react-redux";
 import request from "../api/request";
+import {Form, FormGroup, Input, Label} from "reactstrap";
+import axios from "axios";
+import Box from "@mui/material/Box";
 
 function ProductPage() {
     const dispatch = useDispatch();
@@ -19,6 +22,10 @@ function ProductPage() {
         count: 1
     });
     let {id} = useParams();
+
+    const [commenterUsername, setCommenterUsername] = useState("");
+    const [rating, setRating] = useState("");
+    const [comment, setComment] = useState("");
 
     //get a dummy product and comments according to id
     useEffect(() => {
@@ -35,6 +42,29 @@ function ProductPage() {
     const addToCart = () => {
         dispatch(addItem(product));
     }
+
+
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        if(rating < 0 || rating > 5) {
+            alert("rating must be between 1-5");
+            return;
+        }
+        await axios.post('http://localhost:8080/products/'+id, {
+            commenterUsername: commenterUsername,
+            rating: rating,
+            comment: comment,
+        }, {
+            headers: {'Content-Type': 'application/json'}}).then(response => {
+            console.log(response);
+        })
+            .catch(error => {
+                console.log(error);
+            });
+        window.location.reload();
+    };
 
     const editProduct = () => {
         navigate(`/editProduct/${id}`, {replace: true});
@@ -79,6 +109,8 @@ function ProductPage() {
             </Grid>
 
             <Grid className="Main" container xs={12} md={10}>
+
+
                 <label>Comments</label>
 
                 {product.productRatings.map((commentInfo) => (
@@ -103,6 +135,69 @@ function ProductPage() {
                         </Paper>
                     </Grid>
                 ))}
+
+
+                <Grid container xs={12}>
+
+                    <Grid item xs={4}>
+
+                        <Form onSubmit={handleSubmit}>
+                            <FormGroup style={{padding: "5px"}}>
+                                <Input
+                                    className="input"
+                                    type="text"
+                                    name="commenterUsername"
+                                    onChange={(e) => setCommenterUsername(e.target.value)}
+                                    required
+                                    size="20"
+                                    placeholder="Username"
+                                    minlength="2"
+                                    maxlength="20"
+                                />
+                            </FormGroup>
+
+                            <FormGroup style={{padding: "5px"}}>
+                                {" "}
+                                <Input
+                                    className="input description"
+                                    type="textarea"
+                                    name="comment"
+                                    onChange={(e) => setComment(e.target.value)}
+                                    required
+                                    placeholder="Comment"
+                                    bsSize={'lg'}
+
+                                />
+                            </FormGroup>
+                            <FormGroup style={{padding: "5px"}}>
+                                {" "}
+
+                                <Input
+                                    className="input"
+                                    type="number"
+                                    name="rating"
+                                    onChange={(e) => setRating(e.target.value)}
+                                    required
+                                    placeholder="rating"
+
+                                />
+
+                            </FormGroup>
+
+
+                            <Button type="submit" className="button" variant="contained" sx={{width: "250px", marginLeft: "5px", backgroundColor: "rgba(220,72,46,0.72)"}}>
+                                Add Comment
+                            </Button>
+                        </Form>
+
+                    </Grid>
+
+
+                </Grid>
+
+
+
+
             </Grid>
         </Grid>
     );

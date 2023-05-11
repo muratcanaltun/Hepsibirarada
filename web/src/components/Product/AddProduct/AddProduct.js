@@ -14,7 +14,7 @@ const AddProduct = () => {
     const [category, setCategory] = useState("Moda");
     const [availableStocks, setAvailableStocks] = useState("");
     const [store, setStore] = useState("");
-    const [imageLink, setImageLink] = useState("");
+    const [imageLink, setImageLink] = useState(null);
 
 
 
@@ -57,6 +57,21 @@ const AddProduct = () => {
 
         setStoresFromServer().catch(e => console.log(e))
     }, [])
+
+
+    function encodeImageFileAsURL() {
+        let file = document.getElementById("imageInput").files[0];
+        let reader = new FileReader();
+        reader.onloadend = function() {
+            console.log('RESULT', reader.result);
+            let imageBase = reader.result;
+            setImageLink(imageBase);
+            console.log(imageLink);
+        }
+        reader.readAsDataURL(file);
+
+
+    }
 
     return (
         <Form onSubmit={handleSubmit} className="form">
@@ -152,17 +167,9 @@ const AddProduct = () => {
             <FormGroup className="formGroup">
                 {" "}
                 <Label for="imageLink" className="label">
-                    Product image link
+                    Product image
                 </Label>
-                <Input
-                    className="input"
-                    type="text"
-                    name="imageLink"
-                    onChange={(e) => setImageLink(e.target.value)}
-                    required
-                    size="20"
-                    placeholder={'Put the link'}
-                />
+                <input id="imageInput" type="file" onChange={() =>encodeImageFileAsURL()}/>
             </FormGroup>
             <Button type="submit" className="button">
                 Add Product

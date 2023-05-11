@@ -75,6 +75,19 @@ const EditProduct = () => {
     navigate(`/`, {replace: true});
   }
 
+  function encodeImageFileAsURL() {
+    let file = document.getElementById("imageInput").files[0];
+    let reader = new FileReader();
+    reader.onloadend = function() {
+      console.log('RESULT', reader.result);
+      let imageBase = reader.result;
+      setImageLink(imageBase);
+      console.log(imageLink);
+    }
+    reader.readAsDataURL(file);
+
+  }
+
   return (
     <section>
       <h1 className="header">Edit Product</h1>
@@ -153,19 +166,9 @@ const EditProduct = () => {
           required
         ></Input>
         <Label for="imageLink" className="label">
-          Image Link:
+          Product Image
         </Label>
-        <Input
-          className="input"
-          type="text"
-          id="imageLink"
-          autoComplete="off"
-          value={imageLink}
-          onChange={(e) => {
-            setImageLink(e.target.value);
-          }}
-          required
-        ></Input>
+        <input id="imageInput" type="file" onChange={() =>encodeImageFileAsURL()}/>
         <Button type="submit" className="button">
                 Edit Product
         </Button>
