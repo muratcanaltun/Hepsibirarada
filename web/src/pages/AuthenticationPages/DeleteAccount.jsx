@@ -59,7 +59,7 @@ const DeleteAccount = () => {
             <section>
                 <h1 className="header">Delete Account</h1>
                 <form className="form" onSubmit={handleSubmit}>
-                    <label for="username" className="label">
+                    <label htmlFor="username" className="label">
                         Username:
                     </label>
                     <input
@@ -74,7 +74,7 @@ const DeleteAccount = () => {
                         }}
                         required
                     ></input>{" "}
-                    <label for="password" className="label">
+                    <label htmlFor="password" className="label">
                         Password:
                     </label>
                     <input

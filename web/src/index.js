@@ -18,22 +18,23 @@ import PersistentDrawerRight from "./components/PersistentDrawerRight";
 import { CookiesProvider } from "react-cookie";
 import CheckoutPage from "./pages/CheckoutPage";
 import EditProductPage from "./pages/EditProductPage"
-import { AuthProvider } from './context/AuthProvider';
-import useAuth from "./hooks/useAuth";
 import OrdersPage from "./pages/OrdersPage";
+import { AuthProvider } from './context/AuthProvider';
+import RequireAuth from './components/RequireAuth';
+import SuspendProductPage from './pages/SuspendProductPage';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
-    <AuthProvider>
-        <CookiesProvider>
+    <CookiesProvider>
+        <AuthProvider>
             <Provider store={store}>
                 <BrowserRouter>
-                
                     <Navbar />
                     <CartFab />
                     <PersistentDrawerRight />
                     <Routes>
+
                         <Route path="/" element={<Home />} />
                         <Route path="product">
                             <Route path=":id" element={<ProductPage />} />
@@ -41,17 +42,23 @@ root.render(
                         <Route path="addProduct" element={<AddProductPage />} />
                         <Route path="login" element={<Login />} />
                         <Route path="register" element={<Register />} />
-                        <Route path="deleteAccount" element={<DeleteAccount />} />
-                        <Route path="checkout" element={<CheckoutPage />} />
-                        <Route path="orders" element={<OrdersPage/>} />
-                        <Route path="editProduct">
-                            <Route path=":id" element={<EditProductPage />} />
+                        <Route path="suspendProduct" element={<SuspendProductPage />} />
+                        
+                        <Route element={<RequireAuth/>}>
+                            <Route path="deleteAccount" element={<DeleteAccount />} />
+                            <Route path="checkout" element={<CheckoutPage />} />
+                            <Route path="orders" element={<OrdersPage />} />
+                            <Route path="editProduct">
+                                <Route path=":id" element={<EditProductPage />} />
+                            </Route>
+                            <Route path="suspendProduct" element={<SuspendProductPage />} />
                         </Route>
+
                     </Routes>
                 </BrowserRouter>
             </Provider>
-        </CookiesProvider>
-    </AuthProvider>,
+        </AuthProvider>
+    </CookiesProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function

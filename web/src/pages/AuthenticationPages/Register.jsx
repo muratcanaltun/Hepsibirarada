@@ -114,7 +114,7 @@ const Register = () => {
                     </p>
                     <h1 className="header">Register</h1>
                     <form className="form" onSubmit={handleSubmit}>
-                        <label for="username" className="label">
+                        <label htmlFor="username" className="label">
                             Username:
                         </label>
                         <input
@@ -143,7 +143,7 @@ const Register = () => {
                                 Must begin with a letter. <br/>
                             </p>
                         ) : null}
-                        <label for="email" className="label">
+                        <label htmlFor="email" className="label">
                             E-Mail:
                         </label>
                         <input
@@ -186,7 +186,7 @@ const Register = () => {
                                 onFocus={() => setAddressFocus(true)}
                                 onBlur={() => setAddressFocus(false)}
                             /></>}
-                        <label for="password" className="label">
+                        <label htmlFor="password" className="label">
                             Password:
                         </label>
                         <input
@@ -214,7 +214,7 @@ const Register = () => {
                                 <br/>
                             </p>
                         ) : null}
-                        <label for="confirm_password" className="label">
+                        <label htmlFor="confirm_password" className="label">
                             Confirm Password:
                         </label>
                         <input
