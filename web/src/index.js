@@ -22,6 +22,8 @@ import OrdersPage from "./pages/OrdersPage";
 import { AuthProvider } from './context/AuthProvider';
 import RequireAuth from './components/RequireAuth';
 import SuspendProductPage from './pages/SuspendProductPage';
+import SuspendStorePage from './pages/SuspendStorePage';
+import AcceptStorePage from './pages/AcceptStorePage';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -39,10 +41,8 @@ root.render(
                         <Route path="product">
                             <Route path=":id" element={<ProductPage />} />
                         </Route>
-                        <Route path="addProduct" element={<AddProductPage />} />
                         <Route path="login" element={<Login />} />
                         <Route path="register" element={<Register />} />
-                        <Route path="suspendProduct" element={<SuspendProductPage />} />
                         
                         <Route element={<RequireAuth/>}>
                             <Route path="deleteAccount" element={<DeleteAccount />} />
@@ -51,7 +51,10 @@ root.render(
                             <Route path="editProduct">
                                 <Route path=":id" element={<EditProductPage />} />
                             </Route>
+                            <Route path="addProduct" element={<AddProductPage />} />
                             <Route path="suspendProduct" element={<SuspendProductPage />} />
+                            <Route path="suspendStore" element={<SuspendStorePage />} />
+                            <Route path="acceptStore" element={<AcceptStorePage />} />
                         </Route>
 
                     </Routes>
