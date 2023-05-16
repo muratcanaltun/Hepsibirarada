@@ -4,15 +4,18 @@ import java.awt.event.*;
 
 public class HepsiGUI {
     private boolean loggedIn = false;
+
     private JTextField searchField;
     private JButton searchButton;
     private JButton loginButton;
     private JButton registerButton;
     private JButton homeButton;
     private JPanel topPanel;
+
     private JPanel homePage;
     private JPanel GUIPanel;
     private JButton seeProductsButton;
+
     private JPanel loginPanel;
     private JTextField usernameField;
     private JLabel usernameLabel;
@@ -24,7 +27,9 @@ public class HepsiGUI {
     private JRadioButton storeRadio;
     private ButtonGroup loginButtonGroup;
     private JButton loginAcceptButton;
+
     private JPanel dataPanel;
+
     private ButtonGroup registerButtonGroup;
     private JTextField usernameRegisterField;
     private JLabel usernameRegisterLabel;
@@ -41,8 +46,10 @@ public class HepsiGUI {
     private JTextField addressRegisterTitleField;
     private JLabel addressRegisterTitleLabel;
     private JScrollPane addressRegisterPane;
+
     private JLabel loginGoToRegister;
     private JLabel registerGoToLogin;
+    private JButton logoutButton;
 
     private JPanel currentPanel;
 
@@ -51,6 +58,7 @@ public class HepsiGUI {
         loginPanel.setVisible(false);
         registerPanel.setVisible(false);
 
+        logoutButton.setVisible(false);
         addressRegisterTitleLabel.setVisible(false);
         addressRegisterPane.setVisible(false);
         addressRegisterTitleField.setVisible(false);
