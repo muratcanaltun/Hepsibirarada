@@ -46,6 +46,19 @@ public class AuthenticatorController {
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/2FACode/{username}")
+    String getUserCode(@PathVariable String username) {
+        int[] codeArray = authenticatorRepository.findByUsername(username).getCode();
+
+        String codeText = "";
+        for (Integer integer : codeArray) {
+            codeText += integer;
+        }
+
+        return codeText;
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/2FA")
     String createAuthenticationCode(@RequestBody String body) {
         Authenticator authenticator = authenticatorRepository.findByUsername(body);

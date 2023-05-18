@@ -1,4 +1,4 @@
-package desktop.util;
+package authenticator.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -17,11 +17,6 @@ public class RequestProcessingUtil {
     public ArrayList<ProductDataHolder> parseProductArray(String JSONString) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         return mapper.readValue(JSONString, new TypeReference<ArrayList<ProductDataHolder>>() {});
-    }
-
-    public ProductDataHolder parseSingleProduct(String JSONString) throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.readValue(JSONString, new TypeReference<ProductDataHolder>() {});
     }
 
     public Map<String, Object> parseJSONTypeFree(String JSONString) throws JsonProcessingException {

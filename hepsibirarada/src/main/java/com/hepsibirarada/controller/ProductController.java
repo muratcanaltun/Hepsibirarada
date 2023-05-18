@@ -39,6 +39,12 @@ public class ProductController {
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/productQuery/{query}")
+    List<Product> getQuery(@PathVariable String query) {
+        return productRepository.findByQuery(query);
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/products")
     Product newProduct(@RequestBody String body) throws IOException {
         Map<String, String> parsedJSON = requestProcessingUtil.parseJSON(body);

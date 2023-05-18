@@ -1,9 +1,5 @@
 package desktop.model;
 
-import com.hepsibirarada.model.ProductRating;
-
-import java.util.List;
-
 public class CatalogItem {
     private String id;
     private String title;
