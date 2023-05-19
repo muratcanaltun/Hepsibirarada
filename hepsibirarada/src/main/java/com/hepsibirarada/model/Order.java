@@ -2,11 +2,9 @@ package com.hepsibirarada.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.util.Pair;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 
 @Document("orders")
 public class Order {

@@ -19,4 +19,7 @@ public interface ProductRepository extends MongoRepository<Product, String> {
 
     @Query("{stopSales:true}")
     List<Product> findAllSuspended();
+
+    @Query("{'$or':[ {'title':'?0'}, {'category':'?0'}, {'description':'?0'} ] }")
+    List<Product> findByQuery(String query);
 }
