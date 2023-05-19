@@ -24,6 +24,7 @@ public class CartItemPanel extends JPanel {
         super();
         this.catalogItem = catalogItem;
         this.quantity = new JLabel(String.valueOf(quantity));
+        this.setMaximumSize(new Dimension(300, 300));
 
         this.setLayout(new GridLayout(1, 0));
         this.catalogItem = catalogItem;

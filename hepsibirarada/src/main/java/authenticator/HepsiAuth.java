@@ -41,7 +41,7 @@ public class HepsiAuth {
     private AccountAuthenticationUtil accountAuthenticationUtil;
 
     public HepsiAuth() {
-        currentPanel = mainpanel;
+        currentPanel = loginPanel;
 
         requestProcessingUtil = new RequestProcessingUtil();
         accountAuthenticationUtil = new AccountAuthenticationUtil();
@@ -180,7 +180,8 @@ public class HepsiAuth {
 
         frame.pack();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setMinimumSize(new Dimension(900, 600));
+        frame.setMinimumSize(new Dimension(300, 300));
+        frame.setResizable(false);
         frame.setVisible(true);
     }
 }

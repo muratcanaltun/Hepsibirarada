@@ -1,14 +1,13 @@
 package desktop;
 
-import desktop.components.CartItemPanel;
-import desktop.components.CatalogItemPanel;
-import desktop.model.CatalogItem;
-import desktop.model.ProductDataHolder;
+import desktop.components.*;
+import desktop.model.*;
 import desktop.util.AccountAuthenticationUtil;
 import desktop.util.RequestProcessingUtil;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
@@ -116,7 +115,7 @@ public class HepsiGUI {
     private JLabel confirmEditPasswordLabel;
     private JPanel productPanel;
     private JLabel productCategoryLabel;
-    private JLabel productInageLabel;
+    private JLabel productImageLabel;
     private JLabel productPriceLabel;
     private JPanel productImagePanel;
     private JLabel productDescriptionLabel;
@@ -132,6 +131,28 @@ public class HepsiGUI {
     private JScrollPane acceptScrollPane;
     private JPanel acceptPanel;
     private JButton productEditButton;
+    private JPanel ordersPanel;
+    private JTable ordersTable;
+    private JButton confirmCheckoutButton;
+    private JPanel addCommentPanel;
+    private JSpinner addCommentSpinner;
+    private JTextArea addCommentArea;
+    private JButton postCommentButton;
+    private JComboBox selectAddressBox;
+    private JLabel selectAddressLabel;
+    private JPanel creditCardPanel;
+    private JPanel addNewAddressPanel;
+    private JTextField addAddressTitle;
+    private JButton addAddressAndConfirmButton;
+    private JTextField cardNamePanel;
+    private JTextField textField1;
+    private JTextField textField2;
+    private JButton confirmButton;
+    private JTextField textField3;
+    private JButton viewApprovalsButton;
+    private JButton viewSuspensionsButton;
+    private JButton viewOrdersButton;
+    private JPanel customerOrdersPanel;
     private String[] categories;
     private char productMode;
     private String encodedImage;
@@ -160,12 +181,25 @@ public class HepsiGUI {
         authenticationPanel.setVisible(false);
         availableItemsPanel.setVisible(false);
         addProductPanel.setVisible(false);
+        editAccountPanel.setVisible(false);
+        productPanel.setVisible(false);
+        acceptStoresPanel.setVisible(false);
+        suspendStoresPanel.setVisible(false);
+        ordersPanel.setVisible(false);
+        addCommentPanel.setVisible(false);
+        creditCardPanel.setVisible(false);
+        addNewAddressPanel.setVisible(false);
+
+        commentsPanel.setLayout(new GridLayout(0, 1));
 
         addButton.setVisible(false);
         removeButton.setVisible(false);
         editButton.setVisible(false);
 
         availableItemsScroll.setViewportView(itemsPanel);
+
+        suspendPanel.setLayout(new GridLayout(0,1));
+        acceptPanel.setLayout(new GridLayout(0,1));
 
         itemsPanel.setLayout(new GridLayout(0, 3));
         cartPanel.setLayout(new GridLayout(0, 1));
@@ -176,6 +210,10 @@ public class HepsiGUI {
         logoutButton.setVisible(false);
         editAccountButton.setVisible(false);
         addProductButton.setVisible(false);
+        viewApprovalsButton.setVisible(false);
+        viewOrdersButton.setVisible(false);
+        viewSuspensionsButton.setVisible(false);
+
         addressRegisterTitleLabel.setVisible(false);
         addressRegisterPane.setVisible(false);
         addressRegisterTitleField.setVisible(false);
@@ -190,6 +228,8 @@ public class HepsiGUI {
         registerButtonGroup = new ButtonGroup();
         registerButtonGroup.add(customerRegisterButton);
         registerButtonGroup.add(storeRegisterButton);
+
+        customerOrdersPanel.setLayout(new GridLayout(0,1));
 
         cart = new HashMap<>();
 
@@ -293,6 +333,11 @@ public class HepsiGUI {
 
                         if (userType.equals("Store")) {
                             addProductButton.setVisible(true);
+                        } else if (userType.equals("Customer")) {
+                            viewOrdersButton.setVisible(true);
+                        } else if (userType.equals("Platform Manager")) {
+                            viewApprovalsButton.setVisible(true);
+                            viewSuspensionsButton.setVisible(true);
                         }
 
                         switchPages(homePage);
@@ -310,7 +355,13 @@ public class HepsiGUI {
                 loginButton.setVisible(true);
                 registerButton.setVisible(true);
                 logoutButton.setVisible(false);
+                addProductButton.setVisible(false);
+                editAccountButton.setVisible(false);
+                viewApprovalsButton.setVisible(false);
+                viewOrdersButton.setVisible(false);
+                viewSuspensionsButton.setVisible(false);
                 greetingLabel.setText("Hello");
+                productMode = 'n';
                 switchPages(homePage);
             }
         });
@@ -329,6 +380,11 @@ public class HepsiGUI {
         seeProductsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                try {
+                    getAvailableProducts(itemsPanel);
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
                 switchPages(availableItemsPanel);
             }
         });
@@ -388,17 +444,13 @@ public class HepsiGUI {
                         ImageIO.write(img, "PNG", out);
                         byte[] bytes = out.toByteArray();
 
-                        byte[] base64bytes = Base64.getEncoder().encode(bytes);
+                        String base64bytes = Base64.getEncoder().encodeToString(bytes);
                         String src = "data:image/png;base64,";
-
-                        for (int i = 0; i < base64bytes.length; i++) {
-                            src += base64bytes[i];
-                        }
 
                         imagePreviewLabel.setIcon(new ImageIcon(
                                 img.getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH)));
 
-                        encodedImage = src;
+                        encodedImage = src + base64bytes;
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }
@@ -470,10 +522,320 @@ public class HepsiGUI {
 
             }
         });
+        checkoutButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!loggedIn) {
+                    JOptionPane.showMessageDialog((JFrame) SwingUtilities.getWindowAncestor(GUIPanel),
+                            "Please log in before checking out.");
+                } else {
+                    DefaultTableModel dtm = new DefaultTableModel(0, 0);
+                    String[] headers = new String[]{"Product Title", "Quantity", "Price"};
+                    dtm.setColumnIdentifiers(headers);
+                    ordersTable.setModel(dtm);
+
+                    for (Map.Entry<String, Integer> entry: cart.entrySet()) {
+                        try {
+                            ProductDataHolder productDataHolder = getProduct(entry.getKey());
+                            dtm.addRow(new Object[]{productDataHolder.title, entry.getValue(),
+                                    productDataHolder.price * entry.getValue()});
+                        } catch (IOException ex) {
+                            throw new RuntimeException(ex);
+                        }
+
+                    }
+
+                    try {
+                        addAddresses();
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    switchPages(ordersPanel);
+                }
+            }
+        });
+        addToCartButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    ProductDataHolder product = getProduct(chosenProductID);
+
+                    addItemToCart(new CatalogItem(product.id, product.title, product.price, product.imageLink));
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+
+
+            }
+        });
+        postCommentButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    postComment();
+                    addComments(chosenProductID);
+                    switchPages(productPanel);
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        });
+        confirmCheckoutButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (selectAddressBox.getSelectedItem().equals("Add new address")) {
+                    switchPages(addNewAddressPanel);
+                } else {
+                    switchPages(creditCardPanel);
+                }
+            }
+        });
+        addAddressAndConfirmButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                selectAddressBox.addItem(addAddressTitle.getText());
+                selectAddressBox.setSelectedItem(addAddressTitle.getText());
+                switchPages(creditCardPanel);
+            }
+        });
+        confirmButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    createOrder();
+                    switchPages(homePage);
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        });
+        viewSuspensionsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    JPanel lastPanel = currentPanel;
+
+                    switchPages(suspendStoresPanel);
+                    if (lastPanel != suspendStoresPanel) {
+                        getSuspendStores();
+                    }
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        });
+        viewApprovalsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    JPanel lastPanel = currentPanel;
+                    switchPages(acceptStoresPanel);
+                    if (lastPanel != acceptStoresPanel) {
+                        getAcceptStores();
+                    }
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        });
+        viewOrdersButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    JPanel lastPanel = currentPanel;
+                    switchPages(customerOrdersPanel);
+                    if (lastPanel != customerOrdersPanel) {
+                        getOrders();
+                    }
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        });
+    }
+
+    public void getOrders() throws IOException {
+        HttpURLConnection con = createBackendConnection("http://localhost:8080/orders/" + loggedUser,
+                "GET");
+        String response = getHTTPResponse(con);
+
+        ArrayList<OrderDataHolder> orders = requestProcessingUtil.parseOrderArray(response);
+
+        for (OrderDataHolder order : orders) {
+            JTable orderTable = new JTable();
+
+            DefaultTableModel dtm = new DefaultTableModel(0, 0);
+            String[] headers = new String[]{"Address Title", "Product Title", "Quantity"};
+            dtm.setColumnIdentifiers(headers);
+            orderTable.setModel(dtm);
+
+            String productTitle = "";
+            for (int i = 0; i < order.products.size(); i++) {
+                if (i % 2 == 0) {
+                    productTitle = order.products.get(i);
+                } else {
+                    dtm.addRow(new Object[]{order.address, getProduct(productTitle).title,
+                            order.products.get(i)});
+                }
+            }
+
+            customerOrdersPanel.add(orderTable);
+        }
+    }
+
+    public void getSuspendStores() throws IOException {
+        HttpURLConnection con = createBackendConnection("http://localhost:8080/stores", "GET");
+
+        String response = getHTTPResponse(con);
+
+        ArrayList<StoreDataHolder> stores = requestProcessingUtil.parseStoreArray(response);
+
+        for (StoreDataHolder store : stores) {
+            SuspendStorePanel suspendStorePanel = new SuspendStorePanel(store);
+            suspendStorePanel.getSuspend().addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    try {
+                        toggleSuspended(store.username, "suspend");
+                        suspendStorePanel.getStatus().setText("Is Suspended Status: " + "true");
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+            });
+
+            suspendStorePanel.getUnsuspend().addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    try {
+                        toggleSuspended(store.username, "unsuspend");
+                        suspendStorePanel.getStatus().setText("Is Suspended Status: " + "false");
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+            });
+
+            suspendPanel.add(suspendStorePanel);
+        }
+    }
+
+    public void getAcceptStores() throws IOException {
+        HttpURLConnection con = createBackendConnection("http://localhost:8080/stores", "GET");
+
+        String response = getHTTPResponse(con);
+
+        ArrayList<StoreDataHolder> stores = requestProcessingUtil.parseStoreArray(response);
+
+        for (StoreDataHolder store : stores) {
+            AcceptStorePanel acceptStorePanel = new AcceptStorePanel(store);
+            acceptStorePanel.getAccept().addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    try {
+                        toggleAccepted(store.username, "accept");
+                        acceptStorePanel.getStatus().setText("Is Accepted Status: " + "true");
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+            });
+
+            acceptStorePanel.getReject().addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    try {
+                        toggleAccepted(store.username, "reject");
+                        acceptStorePanel.getStatus().setText("Is Accepted Status: " + "false");
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+            });
+
+            acceptPanel.add(acceptStorePanel);
+        }
+    }
+
+    public void toggleAccepted(String username, String accept) throws IOException {
+        HttpURLConnection con = createBackendConnection("http://localhost:8080/" + accept + "Store/" + username, "POST");
+
+        String response = getHTTPResponse(con);
+        System.out.println(response);
+    }
+
+    public void toggleSuspended(String username, String suspend) throws IOException {
+        HttpURLConnection con = createBackendConnection("http://localhost:8080/" + suspend + "Store/" + username, "POST");
+
+        String response = getHTTPResponse(con);
+        System.out.println(response);
+    }
+
+    public void createOrder() throws IOException {
+        HttpURLConnection con = createBackendConnection("http://localhost:8080/orders", "POST");
+
+        sendHTTPRequestWithBody(con, createOrderBody());
+        String response = getHTTPResponse(con);
+        System.out.println(response);
+    }
+
+    public String createOrderBody() {
+        String arrayString = "";
+
+        for (Map.Entry<String, Integer> cartItem : cart.entrySet()) {
+            arrayString += "\"" + cartItem.getKey() + "\",";
+            arrayString += "\"" + cartItem.getValue() + "\",";
+        }
+
+        System.out.println("{\"customerUsername\": \"" + loggedUser +
+                "\", \"address\": \"" + selectAddressBox.getSelectedItem() +
+                "\", \"products\": \"" + "[" + arrayString.substring(0, arrayString.length() - 1) + "]" +
+                "\"}");
+
+        return "{\"customerUsername\": \"" + loggedUser +
+                "\", \"address\": \"" + selectAddressBox.getSelectedItem() +
+                "\", \"products\": " + "[" + arrayString.substring(0, arrayString.length() - 1) + "]" +
+                "}";
+    }
+
+    public void addAddresses() throws IOException {
+        HttpURLConnection con = createBackendConnection("http://localhost:8080/customers/" + loggedUser, "GET");
+
+        String response = getHTTPResponse(con);
+        CustomerDataHolder customer = requestProcessingUtil.parseSingleCustomer(response);
+
+        for (String addressTitle : customer.addresses.keySet()) {
+            selectAddressBox.addItem(addressTitle);
+        }
+
+        selectAddressBox.addItem("Add new address");
+    }
+
+    public void postComment() throws IOException {
+        HttpURLConnection con = createBackendConnection("http://localhost:8080/products/" + chosenProductID, "POST");
+
+        sendHTTPRequestWithBody(con, createCommentBody());
+        String response = getHTTPResponse(con);
+    }
+
+    public String createCommentBody() {
+        return "{\"commenterUsername\": \"" + loggedUser +
+                "\", \"rating\": \"" + addCommentSpinner.getValue() +
+                "\", \"comment\": \"" + addCommentArea.getText() +
+                "\"}";
+    }
+
+    public ProductDataHolder getProduct(String productID) throws IOException {
+        HttpURLConnection con = createBackendConnection("http://localhost:8080/products/" + productID
+                , "GET");
+
+        String response = getHTTPResponse(con);
+
+        return requestProcessingUtil.parseSingleProduct(response);
     }
 
     public void getQueryProducts(JPanel availableItems, String query) throws IOException {
-        HttpURLConnection con = createBackendConnection("http://localhost:8080/productQuery/" + query
+        HttpURLConnection con = createBackendConnection("http://localhost:8080/productQuery/" + query.replaceAll(" ", "%20")
                 , "GET");
         String response = getHTTPResponse(con);
 
@@ -494,8 +856,54 @@ public class HepsiGUI {
                 }
             });
 
+            catalogItemPanel.getClickableImage().addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    try {
+                        if (userType == null ||!userType.equals("Store")) {
+                            productEditButton.setVisible(false);
+                        }
+
+                        if (userType != null || userType.equals("Customer")) {
+                            addCommentPanel.setVisible(true);
+                        }
+                        setProductData(catalogItem);
+                        addComments(catalogItem.getId());
+                        switchPages(productPanel);
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            });
+
             availableItems.add(catalogItemPanel);
         }
+    }
+
+    public void setProductData(CatalogItem catalogItem) throws IOException {
+        ProductDataHolder productDataHolder = getProduct(catalogItem.getId());
+
+        productCategoryLabel.setText(productDataHolder.category);
+        productTitleLabel.setText(productDataHolder.title);
+        productDescriptionLabel.setText(productDataHolder.description);
+        productPriceLabel.setText("₺" + productDataHolder.price);
+
+        String partSeparator = ",";
+        String encodedImg = catalogItem.getImage().split(partSeparator)[1];
+        byte[] decodedImg = Base64.getDecoder().decode(encodedImg.getBytes(StandardCharsets.UTF_8));
+
+        BufferedImage img = ImageIO.read(new ByteArrayInputStream(decodedImg));
+        Image resizedImage = img.getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH);
+
+        productImageLabel.setIcon(new ImageIcon(resizedImage));
+
+        chosenProductID = catalogItem.getId();
+
+        productCategoryLabel.revalidate();
+        productTitleLabel.revalidate();
+        productDescriptionLabel.revalidate();
+        productPriceLabel.revalidate();
+        productImageLabel.revalidate();
     }
 
     public void getFieldsReadyToEdit() throws IOException {
@@ -571,6 +979,7 @@ public class HepsiGUI {
                 "\", \"description\": \"" + descriptionArea.getText() +
                 "\", \"category\": \"" + categoryBox.getSelectedItem() +
                 "\", \"availableStocks\": \"" + stockSpinner.getValue() +
+                "\", \"store\": \"" + loggedUser +
                 "\", \"imageLink\": \"" + encodedImage +
                 "\"}";
     }
@@ -597,7 +1006,36 @@ public class HepsiGUI {
                 }
             });
 
+            catalogItemPanel.getClickableImage().addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    try {
+                        if (userType == null || !userType.equals("Store")) {
+                            productEditButton.setVisible(false);
+                        }
+
+                        if (userType != null && userType.equals("Customer")) {
+                            addCommentPanel.setVisible(true);
+                        }
+
+                        setProductData(catalogItem);
+                        addComments(catalogItem.getId());
+                        switchPages(productPanel);
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            });
+
             availableItems.add(catalogItemPanel);
+        }
+    }
+
+    public void addComments(String id) throws IOException {
+        ProductDataHolder product = getProduct(id);
+
+        for (RatingDataHolder rating : product.ratings) {
+            commentsPanel.add(new ProductRatingPanel(rating));
         }
     }
 
@@ -661,8 +1099,14 @@ public class HepsiGUI {
     }
 
     public boolean checkLogin() throws IOException {
+        String loginType = getSelectedButtonText(loginButtonGroup).toLowerCase();
+
+        if (loginType.toLowerCase().equals("Platform Manager".toLowerCase())) {
+            loginType = "manager";
+        }
+
         HttpURLConnection con = createBackendConnection("http://localhost:8080/" +
-                getSelectedButtonText(loginButtonGroup).toLowerCase() + "s/" + usernameField.getText(), "GET");
+                loginType + "s/" + usernameField.getText(), "GET");
         String response = getHTTPResponse(con);
 
         Map<String, String> parsedResponse = requestProcessingUtil.parseJSON(response);
@@ -752,6 +1196,10 @@ public class HepsiGUI {
                 editButton.setVisible(true);
                 removeButton.setVisible(true);
         }
+
+        customerOrdersPanel.removeAll();
+        acceptPanel.removeAll();
+        suspendPanel.removeAll();
 
         currentPanel.setVisible(true);
     }

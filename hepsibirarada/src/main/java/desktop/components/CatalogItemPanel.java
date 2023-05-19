@@ -23,6 +23,7 @@ public class CatalogItemPanel extends JPanel {
         this.setLayout(new GridLayout(0, 1));
         this.catalogItem = catalogItem;
         this.setBackground(new Color(255, 255, 255));
+        this.setMaximumSize(new Dimension(300, 300));
 
         this.nameLabel = new JLabel(catalogItem.getTitle());
         this.priceLabel = new JLabel("₺" + catalogItem.getPrice());
