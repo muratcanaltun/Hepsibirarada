@@ -2,6 +2,7 @@ import React from "react";
 import logo from "../../images/logo.jpg";
 import './Navbar.css';
 import {useNavigate} from "react-router-dom";
+import SearchIcon from '@mui/icons-material/Search';
 
 const MenuItems = [
     {
@@ -36,7 +37,9 @@ function Navbar (){
     return (
       <nav className="NavbarItems">
         <a onClick={()=> {navigate('')}}><img src={logo} className="navbar-logo" alt="" /></a>
+
         <ul className= "nav-menu">
+            <SearchIcon onClick={()=>navigate(`/search`, {replace: true})}/>
           {MenuItems.map((item, index) => {
             return (
               <li>
