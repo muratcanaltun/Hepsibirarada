@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import logo from "../../images/logo.jpg";
 import './Navbar.css';
 import {useNavigate} from "react-router-dom";
@@ -29,17 +29,31 @@ const MenuItems = [
 ]
 
 function Navbar (){
-      let navigate = useNavigate();
+    let navigate = useNavigate();
+    const [toSearch, setToSearch] = useState("");
+    let currentLocation = window.location.pathname;
 
-      const navigateHandler = (url) => {
+
+    let textArea =  <textarea id="SearchTextArea" placeholder="Search" onKeyDown={(e)=>{if(e.keyCode === 13) {navigate(`/search/${toSearch}`, {replace: true})}}} onChange={(e)=>setToSearch(e.target.value)}  className="searchTextBox"></textarea>
+
+    useEffect(() => {
+        if(currentLocation.includes("search")) {
+            document.getElementById("SearchTextArea").style.display="none";
+        } else {
+            document.getElementById("SearchTextArea").style.display="flex";
+        }
+        console.log(currentLocation);
+    }, [currentLocation]);
+
+    const navigateHandler = (url) => {
           navigate(`../${url}`, {replace: true})
       }
     return (
       <nav className="NavbarItems">
         <a onClick={()=> {navigate('')}}><img src={logo} className="navbar-logo" alt="" /></a>
-
         <ul className= "nav-menu">
-            <SearchIcon onClick={()=>navigate(`/search`, {replace: true})}/>
+            {textArea}
+            <SearchIcon onClick={()=>navigate(`/search/${toSearch}`, {replace: true})}/>
           {MenuItems.map((item, index) => {
             return (
               <li>
