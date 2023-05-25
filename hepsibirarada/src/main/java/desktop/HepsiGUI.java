@@ -360,6 +360,7 @@ public class HepsiGUI {
                 viewApprovalsButton.setVisible(false);
                 viewOrdersButton.setVisible(false);
                 viewSuspensionsButton.setVisible(false);
+                addCommentPanel.setVisible(false);
                 greetingLabel.setText("Hello");
                 productMode = 'n';
                 switchPages(homePage);
@@ -381,6 +382,7 @@ public class HepsiGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
+                    itemsPanel.removeAll();
                     getAvailableProducts(itemsPanel);
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
@@ -399,8 +401,13 @@ public class HepsiGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    addProduct();
-                    switchPages(homePage);
+                    if ((Integer) stockSpinner.getValue() < 0 || (Integer) priceSpinner.getValue() < 0) {
+                        JOptionPane.showMessageDialog((JFrame) SwingUtilities.getWindowAncestor(GUIPanel),
+                                "Please enter nonzero numbers.");
+                    } else {
+                        addProduct();
+                        switchPages(homePage);
+                    }
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
@@ -410,8 +417,13 @@ public class HepsiGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    editProduct();
-                    switchPages(homePage);
+                    if ((Integer) stockSpinner.getValue() < 0 || (Integer) priceSpinner.getValue() < 0) {
+                        JOptionPane.showMessageDialog((JFrame) SwingUtilities.getWindowAncestor(GUIPanel),
+                                "Please enter nonzero numbers.");
+                    } else {
+                        editProduct();
+                        switchPages(homePage);
+                    }
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
