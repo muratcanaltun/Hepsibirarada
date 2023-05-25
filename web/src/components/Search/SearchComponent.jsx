@@ -1,17 +1,22 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import "./SearchComponent.css";
 import {useSelector} from "react-redux";
 import {Button, Grid, Paper} from "@mui/material";
 import {addItem, myIndexOf} from "../../features/cartSlice";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 
 function SearchComponent() {
 
     const products = useSelector((state) => state.products.productsArray);
-
+    const {keyword} = useParams();
 
 
     const [search, setSearch] = useState("");
+
+    useEffect(() => {
+        console.log(keyword);
+        setSearch(keyword);
+    }, []);
 
     const filteredProducts = products.filter((product) => {
         if (
@@ -38,6 +43,7 @@ function SearchComponent() {
                 <div className="searchBar">
                     <input
                         className="input"
+                        value={search}
                         placeholder="Search"
                         onChange={(e) => {
                             setSearch(e.target.value.toLowerCase());

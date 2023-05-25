@@ -11,6 +11,17 @@
   font-size: 1.2rem;
 }
 
+.searchTextBox {
+  margin-top: 2px;
+  width: 200px;
+  height: 25px;
+  min-width: 200px;
+  min-height: 25px;
+  resize: none;
+  overflow: clip;
+  font-size: 18px;
+}
+
 .navbar-logo {
   color: #fff;
   justify-self: start;

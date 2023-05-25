@@ -45,7 +45,9 @@ root.render(
                         <Route path="deleteAccount" element={<DeleteAccount />} />
                         <Route path="checkout" element={<CheckoutPage />} />
                         <Route path="orders" element={<OrdersPage/>} />
-                        <Route path="Search" element={<SearchPage />} />
+                        <Route path="Search">
+                            <Route path=":keyword" element={<SearchPage />} />
+                        </Route>
                         <Route path="editProduct">
                             <Route path=":id" element={<EditProductPage />} />
                         </Route>
