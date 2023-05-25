@@ -32,9 +32,9 @@ const EditProduct = () => {
   const [description, setDescription] = useState("Electronics");
   const [category, setCategory] = useState("");
   const [availableStocks, setAvailableStocks] = useState("");
-  const [imageLink, setImageLink] = useState("");
+  const [imageLink, setImageLink] = useState(null);
 
-
+  let productImageShowcase = <img id="productImageShowcase" src={imageLink} style={{display: "flex", width: 250, height: 375}}/>
 
   const categories = [
     "Electronics",
@@ -48,6 +48,13 @@ const EditProduct = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if(price < 0) {
+      alert("Please enter a valid price");
+      return;
+    } else if (availableStocks < 0) {
+      alert("please enter a valid stocks value");
+      return;
+    }
     await axios.put('http://localhost:8080/products/'+id, {
       title: title,
       price: price,
@@ -168,6 +175,7 @@ const EditProduct = () => {
         <Label for="imageLink" className="label">
           Product Image
         </Label>
+        {productImageShowcase}
         <input id="imageInput" type="file" onChange={() =>encodeImageFileAsURL()}/>
         <Button type="submit" className="button">
                 Edit Product

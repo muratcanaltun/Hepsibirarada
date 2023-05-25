@@ -27,9 +27,17 @@ const AddProduct = () => {
         'Süpermarket'
     ];
 
+    let productImageShowcase = <img id="productImageShowcase" src={imageLink} style={{display: "none", width: 250, height: 375}}/>
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if(price < 0) {
+            alert("Please enter a valid price");
+            return;
+        } else if (availableStocks < 0) {
+            alert("please enter a valid stocks value");
+            return;
+        }
         await axios.post('http://localhost:8080/products', {
             title: title,
             price: price,
@@ -67,6 +75,7 @@ const AddProduct = () => {
             let imageBase = reader.result;
             setImageLink(imageBase);
             console.log(imageLink);
+            document.getElementById("productImageShowcase").style.display="flex";
         }
         reader.readAsDataURL(file);
 
@@ -170,6 +179,7 @@ const AddProduct = () => {
                     Product image
                 </Label>
                 <input id="imageInput" type="file" onChange={() =>encodeImageFileAsURL()}/>
+                {productImageShowcase}
             </FormGroup>
             <Button type="submit" className="button">
                 Add Product
