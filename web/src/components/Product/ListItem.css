@@ -6,7 +6,7 @@
     z-index: 2;
 }
 .Main .paperHolder .paper {
-    background: hsla(50, 64%, 67%, 0.55);
+    background: hsla(232, 70%, 46%, 0.76);
     backdrop-filter: blur(10px);
     box-shadow: 1px 1px 1px 2px whitesmoke;
     display: flow;
