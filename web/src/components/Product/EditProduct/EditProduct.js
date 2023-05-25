@@ -37,13 +37,13 @@ const EditProduct = () => {
   let productImageShowcase = <img id="productImageShowcase" src={imageLink} style={{display: "flex", width: 250, height: 375}}/>
 
   const categories = [
-    "Electronics",
-    "Moda",
-    "Ev dekorasyonu",
-    "Spor",
-    "Hobi",
-    "Süpermarket",
-  ];
+        "Electronics",
+        "Home Furnishing",
+        "Clothing",
+        "Food & Drink",
+        "Office",
+        "Other",
+    ];
 
 
   const handleSubmit = async (e) => {

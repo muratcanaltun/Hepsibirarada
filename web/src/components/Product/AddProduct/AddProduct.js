@@ -19,12 +19,12 @@ const AddProduct = () => {
 
 
     const categories = [
-        'Electronics',
-        'Moda',
-        'Ev dekorasyonu',
-        'Spor',
-        'Hobi',
-        'Süpermarket'
+        "Electronics",
+        "Home Furnishing",
+        "Clothing",
+        "Food & Drink",
+        "Office",
+        "Other",
     ];
 
     let productImageShowcase = <img id="productImageShowcase" src={imageLink} style={{display: "none", width: 250, height: 375}}/>
