@@ -38,11 +38,11 @@ const EditProduct = () => {
 
   const categories = [
     "Electronics",
-    "Moda",
-    "Ev dekorasyonu",
-    "Spor",
-    "Hobi",
-    "Süpermarket",
+    "Fashion",
+    "Home",
+    "Sports",
+    "Hobbies",
+    "Market",
   ];
 
 
