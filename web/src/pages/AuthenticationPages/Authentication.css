@@ -5,7 +5,7 @@
 }
 
 .container {
-    background-image: url("/Users/umute/Desktop/Hepsibirarada-master/web/src/images/10.png");
+   background-image: url("../../images/10.png");
   background-size: cover;
   background-position: center;
     display: flex;
