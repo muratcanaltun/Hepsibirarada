@@ -104,7 +104,7 @@ const Register = () => {
                     </p>
                 </section>
             ) : (
-                <section>
+                <section >
                     <p
                         ref={errorRef}
                         className={errorMsg ? "errormsg" : "offscreen"}
@@ -113,7 +113,8 @@ const Register = () => {
                         {errorMsg}
                     </p>
                     <h1 className="header">Register</h1>
-                    <form className="form" onSubmit={handleSubmit}>
+                    
+                    <form className="form3" onSubmit={handleSubmit}>
                         <label for="username" className="label">
                             Username:
                         </label>
@@ -281,9 +282,11 @@ const Register = () => {
                         </span>
                     </p>
                 </section>
+               
             )}
         </div>
     );
 };
 
 export default Register;
+
