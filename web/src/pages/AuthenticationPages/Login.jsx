@@ -13,6 +13,7 @@ import request from '../../api/request'
 import axios from "axios";
 
 
+
 const Login = () => {
     const errorRef = useRef();
     const { setAuth } = useContext(AuthContext);
@@ -38,9 +39,9 @@ const Login = () => {
         else {
         }
     }
-
+            
     return (
-        <div className="container">
+        <div className="container" >
             {success ? (
                 <section>
                     <h1>You are logged in!</h1>
@@ -50,10 +51,11 @@ const Login = () => {
                     </p>
                 </section>
             ) : (
-                <section>
+                <div className="myd">
+                    
                     <p ref={errorRef} className={errorMsg ? "errormsg" : "offscreen"} aria-live="assertive">{errorMsg}</p>
                     <h1 className="header">Sign In</h1>
-                    <form className="form" onSubmit={handleSubmit}>
+                    <form className="form1" onSubmit={handleSubmit} style={{ backgroundColor: 'gray' }}>
                         <label for="product_name" className="label">
                             Username:
                         </label>
@@ -109,9 +111,10 @@ const Login = () => {
                             <a href="/register">Sign Up</a>
                         </span>
                     </p>
-                </section>
+                    </div>
             )}
         </div>
+       
     );
 };
 
