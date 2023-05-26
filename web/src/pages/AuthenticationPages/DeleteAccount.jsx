@@ -48,7 +48,7 @@ const DeleteAccount = () => {
 
     return (
         <div className="container">{success ? (
-            <section>
+            <section >
                 <h1>Account Deleted!</h1>
                 <br />
                 <p>
@@ -58,7 +58,7 @@ const DeleteAccount = () => {
         ) : (
             <section>
                 <h1 className="header">Delete Account</h1>
-                <form className="form" onSubmit={handleSubmit}>
+                <form className="form1" onSubmit={handleSubmit}>
                     <label for="username" className="label">
                         Username:
                     </label>
